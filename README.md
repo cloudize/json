@@ -1,2 +1,1 @@
-# json
-API Games JSON Helpers Library
+# API Games JSON Utilities

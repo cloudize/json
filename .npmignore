@@ -1,0 +1,22 @@
+# Ignore files
+.gitignore
+.npmrc
+.npmignore
+
+# Config Files
+.eslintrc
+jest.config.js
+tsconfig.json
+
+# Tests
+tests
+
+# Coverage Reports
+coverage
+
+# Webstorm Configs
+.idea
+
+# Build Source Files
+src
+tests
