@@ -3,8 +3,9 @@
   "author": "API Games Limited",
   "description": "API Games JSON Utilities",
   "license": "MIT",
-  "version": "1.0.26",
-  "main": "src/index.js",
+  "version": "1.0.27",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "build": "rmdir /s /q lib & tsc & jest --config build.jest.config.js",
     "test:coverage": "jest --coverage",
