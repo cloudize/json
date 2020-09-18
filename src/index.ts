@@ -2,7 +2,7 @@ export type {
   JsonNativeElement,
   JsonElementType,
   JsonArrayElementType,
-  JsonObject,
+  IJsonObject,
 } from './json.utils';
 
 export {

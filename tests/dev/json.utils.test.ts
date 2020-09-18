@@ -14,7 +14,7 @@ import {
   isString,
   isDefined,
   isUndefined,
-  stringify, JsonObject,
+  stringify, IJsonObject,
 } from '../../src';
 
 describe('The JSON Utils', () => {
@@ -254,7 +254,7 @@ describe('The JSON Utils', () => {
     });
 
     it('should return an output document that excludes undefined fields in the input document', () => {
-      const document: JsonObject = {
+      const document: IJsonObject = {
         name: 'value',
         count: 1,
         valid: true,

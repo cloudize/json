@@ -1,7 +1,7 @@
 export declare type JsonNativeElement = boolean | number | string | undefined;
-export declare type JsonElementType = JsonObject | Array<JsonObject> | Array<JsonNativeElement> | JsonNativeElement;
-export declare type JsonArrayElementType = Array<JsonObject> | Array<JsonNativeElement>;
-export interface JsonObject {
+export declare type JsonElementType = IJsonObject | Array<IJsonObject> | Array<JsonNativeElement> | JsonNativeElement;
+export declare type JsonArrayElementType = Array<IJsonObject> | Array<JsonNativeElement>;
+export interface IJsonObject {
     [index: string]: JsonElementType;
 }
 export declare function isArray(value: JsonElementType | object): boolean;
@@ -18,6 +18,6 @@ export declare function isUndefined(value: JsonElementType | object): boolean;
 export declare function append(document: JsonElementType, extensionDocument: JsonElementType): JsonElementType;
 export declare function areEqual(firstObject: JsonElementType, secondObject: JsonElementType): boolean;
 export declare function redactUndefinedValues(document: JsonElementType): void;
-export declare function clone(value: JsonObject, shouldRedactUndefinedValues?: boolean): JsonObject;
+export declare function clone(value: IJsonObject, shouldRedactUndefinedValues?: boolean): IJsonObject;
 export declare function stringify(obj: object, indent?: number, linePrefix?: string, quoteFieldNames?: boolean): string;
-export declare function extractAndRedact(document: JsonObject, propertyName: string): JsonObject;
+export declare function extractAndRedact(document: IJsonObject, propertyName: string): IJsonObject;

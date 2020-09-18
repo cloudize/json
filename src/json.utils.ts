@@ -3,11 +3,11 @@ const clonedeep = require('lodash.clonedeep');
 
 export type JsonNativeElement = boolean | number | string | undefined;
 
-export type JsonElementType = JsonObject | Array<JsonObject> | Array<JsonNativeElement> | JsonNativeElement;
+export type JsonElementType = IJsonObject | Array<IJsonObject> | Array<JsonNativeElement> | JsonNativeElement;
 
-export type JsonArrayElementType = Array<JsonObject> | Array<JsonNativeElement>;
+export type JsonArrayElementType = Array<IJsonObject> | Array<JsonNativeElement>;
 
-export interface JsonObject {
+export interface IJsonObject {
     [index: string]: JsonElementType
 }
 
@@ -107,18 +107,18 @@ export function redactUndefinedValues(document: JsonElementType) {
     // eslint-disable-next-line no-restricted-syntax
     for (const key in (document as object)) {
       if (Object.prototype.hasOwnProperty.call(document, key)) {
-        if (isDefined((document as JsonObject)[key])) {
-          redactUndefinedValues((document as JsonObject)[key]);
+        if (isDefined((document as IJsonObject)[key])) {
+          redactUndefinedValues((document as IJsonObject)[key]);
         } else {
           // eslint-disable-next-line no-param-reassign
-          delete (document as JsonObject)[key];
+          delete (document as IJsonObject)[key];
         }
       }
     }
   }
 }
 
-export function clone(value: JsonObject, shouldRedactUndefinedValues: boolean = true): JsonObject {
+export function clone(value: IJsonObject, shouldRedactUndefinedValues: boolean = true): IJsonObject {
   if (value) {
     const clonedDocument = clonedeep(value);
 
@@ -156,7 +156,7 @@ export function stringify(obj: object, indent: number = 4, linePrefix: string = 
   return lines.join('\n');
 }
 
-export function extractAndRedact(document: JsonObject, propertyName: string): JsonObject {
+export function extractAndRedact(document: IJsonObject, propertyName: string): IJsonObject {
   if (Object.prototype.hasOwnProperty.call(document, propertyName)) {
     const value = JSON.parse(JSON.stringify(document[propertyName]));
 
