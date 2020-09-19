@@ -1,22 +1,40 @@
-const jsonUtils = require('../../../lib');
+import {
+  append,
+  areEqual,
+  clone,
+  extractAndRedact,
+  isArray,
+  isBoolean,
+  isDate,
+  isEmpty,
+  isError,
+  isNumber,
+  isObject,
+  isRegExp,
+  isString,
+  isDefined,
+  isUndefined,
+  stringify,
+  IJsonObject,
+} from '../../../lib';
 
 describe('The JSON Utils', () => {
   describe('append() method', () => {
     it('should return an object containing the extension if the document is undefined', () => {
-      expect(jsonUtils.append(undefined, { a: 1 })).toEqual({ a: 1 });
+      expect(append(undefined, { a: 1 })).toEqual({ a: 1 });
     });
 
     it('should return the original value if the extension is undefined', () => {
-      expect(jsonUtils.append({}, undefined)).toEqual({});
+      expect(append({}, undefined)).toEqual({});
     });
 
     it('should return an extended object if both the original value and the extension are defined', () => {
-      expect(jsonUtils.append({ a: 1 }, { b: 'Hello' })).toEqual({ a: 1, b: 'Hello' });
+      expect(append({ a: 1 }, { b: 'Hello' })).toEqual({ a: 1, b: 'Hello' });
     });
 
-    it('should return an extended object with a value being overriden if both the original value and the extension '
-      + 'are defined and they have a common element', () => {
-      expect(jsonUtils.append({ a: 1, b: 1 }, { b: 2, c: 'Hello' })).toEqual({ a: 1, b: 2, c: 'Hello' });
+    it('should return an extended object with a value being overriden if both the original value and the extension are '
+      + 'defined and they have a common element', () => {
+      expect(append({ a: 1, b: 1 }, { b: 2, c: 'Hello' })).toEqual({ a: 1, b: 2, c: 'Hello' });
     });
 
     it('should return an extended object with complex document and extension documents', () => {
@@ -163,53 +181,56 @@ describe('The JSON Utils', () => {
         d: 'new value',
       };
 
-      expect(jsonUtils.append(document, extensionDocument)).toEqual(expectedResult);
+      expect(append(document, extensionDocument)).toEqual(expectedResult);
     });
   });
 
   describe('areEqual() method', () => {
     it('should return true for two undefined inputs', () => {
-      expect(jsonUtils.areEqual(undefined, undefined)).toBe(true);
+      expect(areEqual(undefined, undefined)).toBe(true);
     });
 
     it('should return false if one input is undefined and one is an empty object', () => {
-      expect(jsonUtils.areEqual({ }, undefined)).toBe(false);
+      expect(areEqual({ }, undefined)).toBe(false);
     });
 
     it('should return false if the two inputs have the same elements, but not the same values', () => {
-      expect(jsonUtils.areEqual({ a: 1 }, { a: 2 })).toBe(false);
+      expect(areEqual({ a: 1 }, { a: 2 })).toBe(false);
     });
 
     it('should return false if the two inputs have different elements, but the same values', () => {
-      expect(jsonUtils.areEqual({ a: 1 }, { b: 1 })).toBe(false);
+      expect(areEqual({ a: 1 }, { b: 1 })).toBe(false);
     });
 
     it('should return true if the two simple documents that are equal', () => {
-      expect(jsonUtils.areEqual({ a: 1 }, { a: 1 })).toBe(true);
+      expect(areEqual({ a: 1 }, { a: 1 })).toBe(true);
     });
 
     it('should return true if the two complex documents that are equal but where the elements are not in the '
       + 'same order', () => {
-      expect(jsonUtils.areEqual({
-        a: 1,
-        b: { b1: true },
-        c: ['value1', 'value2'],
-      }, {
-        a: 1,
-        c: ['value1', 'value2'],
-        b: { b1: true },
-      })).toBe(true);
+      expect(areEqual(
+        {
+          a: 1,
+          b: { b1: true },
+          c: ['value1', 'value2'],
+        },
+        {
+          a: 1,
+          c: ['value1', 'value2'],
+          b: { b1: true },
+        },
+      )).toBe(true);
     });
   });
 
   describe('clone() method', () => {
     it('should return an undefined output for an undefined input', () => {
-      const outputDocument = jsonUtils.clone(undefined);
+      const outputDocument = clone(undefined);
       expect(outputDocument).toBeUndefined();
     });
 
     it('should return an empty output for an empty input', () => {
-      const outputDocument = jsonUtils.clone({});
+      const outputDocument = clone({});
       expect(outputDocument).toEqual({});
     });
 
@@ -228,13 +249,13 @@ describe('The JSON Utils', () => {
         ],
       };
 
-      const outputDocument = jsonUtils.clone(document);
+      const outputDocument = clone(document);
       expect(outputDocument).not.toBe(document);
       expect(outputDocument).toEqual(document);
     });
 
     it('should return an output document that excludes undefined fields in the input document', () => {
-      const document = {
+      const document: IJsonObject = {
         name: 'value',
         count: 1,
         valid: true,
@@ -245,15 +266,13 @@ describe('The JSON Utils', () => {
           something: undefined,
         },
         options: [
-          'email',
-          'print',
           undefined,
           { },
           { something: undefined },
         ],
       };
 
-      const outputDocument = jsonUtils.clone(document);
+      const outputDocument = clone(document);
 
       const expected = {
         name: 'value',
@@ -263,7 +282,7 @@ describe('The JSON Utils', () => {
           line1: 'line1 value',
           line2: 'line2 value',
         },
-        options: ['email', 'print', {}, {}],
+        options: [{}, {}],
       };
 
       expect(outputDocument).not.toBe(document);
@@ -287,7 +306,7 @@ describe('The JSON Utils', () => {
         ],
       };
 
-      const gender = jsonUtils.extractAndRedact(document, 'gender');
+      const gender = extractAndRedact(document, 'gender');
       expect(gender).toBeUndefined();
     });
 
@@ -306,10 +325,10 @@ describe('The JSON Utils', () => {
         ],
       };
 
-      const name = jsonUtils.extractAndRedact(document, 'name');
+      const name = extractAndRedact(document, 'name');
       expect(name).toBeDefined();
       expect(name).toBe('value');
-      expect(document.hasOwnProperty('name')).toBe(false);
+      expect(Object.prototype.hasOwnProperty.call(document, 'name')).toBe(false);
     });
 
     it('should return a number element from the document and redact it', () => {
@@ -327,10 +346,10 @@ describe('The JSON Utils', () => {
         ],
       };
 
-      const count = jsonUtils.extractAndRedact(document, 'count');
+      const count = extractAndRedact(document, 'count');
       expect(count).toBeDefined();
       expect(count).toBe(1);
-      expect(document.hasOwnProperty('count')).toBe(false);
+      expect(Object.prototype.hasOwnProperty.call(document, 'count')).toBe(false);
     });
 
     it('should return a boolean element from the document and redact it', () => {
@@ -348,10 +367,10 @@ describe('The JSON Utils', () => {
         ],
       };
 
-      const valid = jsonUtils.extractAndRedact(document, 'valid');
+      const valid = extractAndRedact(document, 'valid');
       expect(valid).toBeDefined();
       expect(valid).toBe(true);
-      expect(document.hasOwnProperty('valid')).toBe(false);
+      expect(Object.prototype.hasOwnProperty.call(document, 'valid')).toBe(false);
     });
 
     it('should return an object element from the document and redact it', () => {
@@ -369,10 +388,10 @@ describe('The JSON Utils', () => {
         ],
       };
 
-      const address = jsonUtils.extractAndRedact(document, 'address');
+      const address = extractAndRedact(document, 'address');
       expect(address).toBeDefined();
       expect(address).toEqual({ line1: 'line1 value', line2: 'line2 value' });
-      expect(document.hasOwnProperty('address')).toBe(false);
+      expect(Object.prototype.hasOwnProperty.call(document, 'address')).toBe(false);
     });
 
     it('should return an array element from the document and redact it', () => {
@@ -390,371 +409,371 @@ describe('The JSON Utils', () => {
         ],
       };
 
-      const options = jsonUtils.extractAndRedact(document, 'options');
+      const options = extractAndRedact(document, 'options');
       expect(options).toBeDefined();
       expect(options).toEqual(['email', 'print']);
-      expect(document.hasOwnProperty('options')).toBe(false);
+      expect(Object.prototype.hasOwnProperty.call(document, 'options')).toBe(false);
     });
   });
 
   describe('isArray() method', () => {
     it('should return true for an empty array', () => {
-      const isArray = jsonUtils.isArray([]);
-      expect(isArray).toBe(true);
+      const result = isArray([]);
+      expect(result).toBe(true);
     });
 
     it('should return true for an array with simple items', () => {
-      const isArray = jsonUtils.isArray(['Bob', 'Frank', 'Sue']);
-      expect(isArray).toBe(true);
+      const result = isArray(['Bob', 'Frank', 'Sue']);
+      expect(result).toBe(true);
     });
 
     it('should return true for an array with object items', () => {
-      const isArray = jsonUtils.isArray([{ name: 'Bob' }, { name: 'Frank' }, { name: 'Sue' }]);
-      expect(isArray).toBe(true);
+      const result = isArray([{ name: 'Bob' }, { name: 'Frank' }, { name: 'Sue' }]);
+      expect(result).toBe(true);
     });
 
     it('should return false for an undefined document', () => {
-      const isArray = jsonUtils.isArray(undefined);
-      expect(isArray).toBe(false);
+      const result = isArray(undefined);
+      expect(result).toBe(false);
     });
 
     it('should return false for an empty object', () => {
-      const isArray = jsonUtils.isArray({});
-      expect(isArray).toBe(false);
+      const result = isArray({});
+      expect(result).toBe(false);
     });
 
     it('should return false for a document with a string element', () => {
-      const isArray = jsonUtils.isArray({ name: 'value' });
-      expect(isArray).toBe(false);
+      const result = isArray({ name: 'value' });
+      expect(result).toBe(false);
     });
   });
 
   describe('isBoolean() method', () => {
     it('should return true for a boolean field', () => {
-      expect(jsonUtils.isBoolean(true)).toBe(true);
+      expect(isBoolean(true)).toBe(true);
     });
 
     it('should return false for an array field', () => {
-      expect(jsonUtils.isBoolean([])).toBe(false);
+      expect(isBoolean([])).toBe(false);
     });
 
     it('should return false for an date field', () => {
-      expect(jsonUtils.isBoolean(new Date())).toBe(false);
+      expect(isBoolean(new Date())).toBe(false);
     });
 
     it('should return false for an error object', () => {
-      expect(jsonUtils.isBoolean(new Error('Test'))).toBe(false);
+      expect(isBoolean(new Error('Test'))).toBe(false);
     });
 
     it('should return false for an number field', () => {
-      expect(jsonUtils.isBoolean(5)).toBe(false);
+      expect(isBoolean(5)).toBe(false);
     });
 
     it('should return false for an Object field', () => {
-      expect(jsonUtils.isBoolean({})).toBe(false);
+      expect(isBoolean({})).toBe(false);
     });
 
     it('should return false for an string field', () => {
-      expect(jsonUtils.isBoolean('test')).toBe(false);
+      expect(isBoolean('test')).toBe(false);
     });
 
     it('should return false for an Regex field', () => {
-      expect(jsonUtils.isBoolean(new RegExp('test', 'g'))).toBe(false);
+      expect(isBoolean(new RegExp('test', 'g'))).toBe(false);
     });
   });
 
   describe('isDate() method', () => {
     it('should return false for a boolean field', () => {
-      expect(jsonUtils.isDate(true)).toBe(false);
+      expect(isDate(true)).toBe(false);
     });
 
     it('should return false for an array field', () => {
-      expect(jsonUtils.isDate([])).toBe(false);
+      expect(isDate([])).toBe(false);
     });
 
     it('should return true for an date field', () => {
-      expect(jsonUtils.isDate(new Date())).toBe(true);
+      expect(isDate(new Date())).toBe(true);
     });
 
     it('should return false for an error object', () => {
-      expect(jsonUtils.isDate(new Error('Test'))).toBe(false);
+      expect(isDate(new Error('Test'))).toBe(false);
     });
 
     it('should return false for an number field', () => {
-      expect(jsonUtils.isDate(5)).toBe(false);
+      expect(isDate(5)).toBe(false);
     });
 
     it('should return false for an Object field', () => {
-      expect(jsonUtils.isDate({})).toBe(false);
+      expect(isDate({})).toBe(false);
     });
 
     it('should return false for an string field', () => {
-      expect(jsonUtils.isDate('test')).toBe(false);
+      expect(isDate('test')).toBe(false);
     });
 
     it('should return false for an Regex field', () => {
-      expect(jsonUtils.isDate(new RegExp('test', 'g'))).toBe(false);
+      expect(isDate(new RegExp('test', 'g'))).toBe(false);
     });
   });
 
   describe('isEmpty() method', () => {
     it('should return true for an undefined document', () => {
-      const isEmpty = jsonUtils.isEmpty(undefined);
-      expect(isEmpty).toBe(true);
+      const result = isEmpty(undefined);
+      expect(result).toBe(true);
     });
 
     it('should return true for an empty document', () => {
-      const isEmpty = jsonUtils.isEmpty({});
-      expect(isEmpty).toBe(true);
+      const result = isEmpty({});
+      expect(result).toBe(true);
     });
 
     it('should return false for a document with a string element', () => {
-      const isEmpty = jsonUtils.isEmpty({ name: 'value' });
-      expect(isEmpty).toBe(false);
+      const result = isEmpty({ name: 'value' });
+      expect(result).toBe(false);
     });
 
     it('should return false for a document containing a sub document', () => {
-      const isEmpty = jsonUtils.isEmpty({ name: { value: 1 } });
-      expect(isEmpty).toBe(false);
+      const result = isEmpty({ name: { value: 1 } });
+      expect(result).toBe(false);
     });
 
     it('should return false for a document containing an array', () => {
-      const isEmpty = jsonUtils.isEmpty({ names: ['value'] });
-      expect(isEmpty).toBe(false);
+      const result = isEmpty({ names: ['value'] });
+      expect(result).toBe(false);
     });
   });
 
   describe('isError() method', () => {
     it('should return false for a boolean field', () => {
-      expect(jsonUtils.isError(true)).toBe(false);
+      expect(isError(true)).toBe(false);
     });
 
     it('should return false for an array field', () => {
-      expect(jsonUtils.isError([])).toBe(false);
+      expect(isError([])).toBe(false);
     });
 
     it('should return false for an date field', () => {
-      expect(jsonUtils.isError(new Date())).toBe(false);
+      expect(isError(new Date())).toBe(false);
     });
 
     it('should return true for an error object', () => {
-      expect(jsonUtils.isError(new Error('Test'))).toBe(true);
+      expect(isError(new Error('Test'))).toBe(true);
     });
 
     it('should return false for an number field', () => {
-      expect(jsonUtils.isError(5)).toBe(false);
+      expect(isError(5)).toBe(false);
     });
 
     it('should return false for an Object field', () => {
-      expect(jsonUtils.isError({})).toBe(false);
+      expect(isError({})).toBe(false);
     });
 
     it('should return false for an string field', () => {
-      expect(jsonUtils.isError('test')).toBe(false);
+      expect(isError('test')).toBe(false);
     });
 
     it('should return false for an Regex field', () => {
-      expect(jsonUtils.isError(new RegExp('test', 'g'))).toBe(false);
+      expect(isError(new RegExp('test', 'g'))).toBe(false);
     });
   });
 
   describe('isNumber() method', () => {
     it('should return false for a boolean field', () => {
-      expect(jsonUtils.isNumber(true)).toBe(false);
+      expect(isNumber(true)).toBe(false);
     });
 
     it('should return false for an array field', () => {
-      expect(jsonUtils.isNumber([])).toBe(false);
+      expect(isNumber([])).toBe(false);
     });
 
     it('should return false for an date field', () => {
-      expect(jsonUtils.isNumber(new Date())).toBe(false);
+      expect(isNumber(new Date())).toBe(false);
     });
 
     it('should return false for an error object', () => {
-      expect(jsonUtils.isNumber(new Error('Test'))).toBe(false);
+      expect(isNumber(new Error('Test'))).toBe(false);
     });
 
     it('should return true for an number field', () => {
-      expect(jsonUtils.isNumber(5)).toBe(true);
+      expect(isNumber(5)).toBe(true);
     });
 
     it('should return false for an Object field', () => {
-      expect(jsonUtils.isNumber({})).toBe(false);
+      expect(isNumber({})).toBe(false);
     });
 
     it('should return false for an string field', () => {
-      expect(jsonUtils.isNumber('test')).toBe(false);
+      expect(isNumber('test')).toBe(false);
     });
 
     it('should return false for an Regex field', () => {
-      expect(jsonUtils.isNumber(new RegExp('test', 'g'))).toBe(false);
+      expect(isNumber(new RegExp('test', 'g'))).toBe(false);
     });
   });
 
   describe('isObject() method', () => {
     it('should return true for an empty object', () => {
-      const isObject = jsonUtils.isObject({});
-      expect(isObject).toBe(true);
+      const result = isObject({});
+      expect(result).toBe(true);
     });
 
-    it('should return true for an object with items', () => {
-      const isObject = jsonUtils.isObject({ name: 'Bob' }, { name: 'Frank' }, { name: 'Sue' });
-      expect(isObject).toBe(true);
+    it('should return true for an object with values', () => {
+      const result = isObject({ name: 'Bob' });
+      expect(result).toBe(true);
     });
 
     it('should return false for an undefined document', () => {
-      const isObject = jsonUtils.isObject(undefined);
-      expect(isObject).toBe(false);
+      const result = isObject(undefined);
+      expect(result).toBe(false);
     });
 
     it('should return false for an array', () => {
-      const isObject = jsonUtils.isObject([]);
-      expect(isObject).toBe(false);
+      const result = isObject([]);
+      expect(result).toBe(false);
     });
   });
 
   describe('isRegExp() method', () => {
     it('should return false for a boolean field', () => {
-      expect(jsonUtils.isRegExp(true)).toBe(false);
+      expect(isRegExp(true)).toBe(false);
     });
 
     it('should return false for an array field', () => {
-      expect(jsonUtils.isRegExp([])).toBe(false);
+      expect(isRegExp([])).toBe(false);
     });
 
     it('should return false for an date field', () => {
-      expect(jsonUtils.isRegExp(new Date())).toBe(false);
+      expect(isRegExp(new Date())).toBe(false);
     });
 
     it('should return false for an error object', () => {
-      expect(jsonUtils.isRegExp(new Error('Test'))).toBe(false);
+      expect(isRegExp(new Error('Test'))).toBe(false);
     });
 
     it('should return false for an number field', () => {
-      expect(jsonUtils.isRegExp(5)).toBe(false);
+      expect(isRegExp(5)).toBe(false);
     });
 
     it('should return false for an Object field', () => {
-      expect(jsonUtils.isRegExp({})).toBe(false);
+      expect(isRegExp({})).toBe(false);
     });
 
     it('should return false for an string field', () => {
-      expect(jsonUtils.isRegExp('test')).toBe(false);
+      expect(isRegExp('test')).toBe(false);
     });
 
     it('should return true for an Regex field', () => {
-      expect(jsonUtils.isRegExp(new RegExp('test', 'g'))).toBe(true);
+      expect(isRegExp(new RegExp('test', 'g'))).toBe(true);
     });
   });
 
   describe('isString() method', () => {
     it('should return false for a boolean field', () => {
-      expect(jsonUtils.isString(true)).toBe(false);
+      expect(isString(true)).toBe(false);
     });
 
     it('should return false for an array field', () => {
-      expect(jsonUtils.isString([])).toBe(false);
+      expect(isString([])).toBe(false);
     });
 
     it('should return false for an date field', () => {
-      expect(jsonUtils.isString(new Date())).toBe(false);
+      expect(isString(new Date())).toBe(false);
     });
 
     it('should return false for an error object', () => {
-      expect(jsonUtils.isString(new Error('Test'))).toBe(false);
+      expect(isString(new Error('Test'))).toBe(false);
     });
 
     it('should return false for an number field', () => {
-      expect(jsonUtils.isString(5)).toBe(false);
+      expect(isString(5)).toBe(false);
     });
 
     it('should return false for an Object field', () => {
-      expect(jsonUtils.isString({})).toBe(false);
+      expect(isString({})).toBe(false);
     });
 
     it('should return true for an string field', () => {
-      expect(jsonUtils.isString('test')).toBe(true);
+      expect(isString('test')).toBe(true);
     });
 
     it('should return false for an Regex field', () => {
-      expect(jsonUtils.isString(new RegExp('test', 'g'))).toBe(false);
+      expect(isString(new RegExp('test', 'g'))).toBe(false);
     });
   });
 
   describe('isDefined() method', () => {
     it('should return false for a boolean value', () => {
-      expect(jsonUtils.isDefined(true)).toBe(true);
+      expect(isDefined(true)).toBe(true);
     });
 
     it('should return false for an array value', () => {
-      expect(jsonUtils.isDefined([])).toBe(true);
+      expect(isDefined([])).toBe(true);
     });
 
     it('should return false for a date value', () => {
-      expect(jsonUtils.isDefined(new Date())).toBe(true);
+      expect(isDefined(new Date())).toBe(true);
     });
 
     it('should return false for an error object', () => {
-      expect(jsonUtils.isDefined(new Error('Test'))).toBe(true);
+      expect(isDefined(new Error('Test'))).toBe(true);
     });
 
     it('should return false for a number value', () => {
-      expect(jsonUtils.isDefined(5)).toBe(true);
+      expect(isDefined(5)).toBe(true);
     });
 
     it('should return false for an Object value', () => {
-      expect(jsonUtils.isDefined({})).toBe(true);
+      expect(isDefined({})).toBe(true);
     });
 
     it('should return true for a string value', () => {
-      expect(jsonUtils.isDefined('test')).toBe(true);
+      expect(isDefined('test')).toBe(true);
     });
 
     it('should return false for a Regex value', () => {
-      expect(jsonUtils.isDefined(new RegExp('test', 'g'))).toBe(true);
+      expect(isDefined(new RegExp('test', 'g'))).toBe(true);
     });
 
     it('should return true for an undefined value', () => {
-      expect(jsonUtils.isDefined(undefined)).toBe(false);
+      expect(isDefined(undefined)).toBe(false);
     });
   });
 
   describe('isUndefined() method', () => {
     it('should return false for a boolean value', () => {
-      expect(jsonUtils.isUndefined(true)).toBe(false);
+      expect(isUndefined(true)).toBe(false);
     });
 
     it('should return false for an array value', () => {
-      expect(jsonUtils.isUndefined([])).toBe(false);
+      expect(isUndefined([])).toBe(false);
     });
 
     it('should return false for a date value', () => {
-      expect(jsonUtils.isUndefined(new Date())).toBe(false);
+      expect(isUndefined(new Date())).toBe(false);
     });
 
     it('should return false for an error object', () => {
-      expect(jsonUtils.isUndefined(new Error('Test'))).toBe(false);
+      expect(isUndefined(new Error('Test'))).toBe(false);
     });
 
     it('should return false for a number value', () => {
-      expect(jsonUtils.isUndefined(5)).toBe(false);
+      expect(isUndefined(5)).toBe(false);
     });
 
     it('should return false for an Object value', () => {
-      expect(jsonUtils.isUndefined({})).toBe(false);
+      expect(isUndefined({})).toBe(false);
     });
 
     it('should return true for a string value', () => {
-      expect(jsonUtils.isUndefined('test')).toBe(false);
+      expect(isUndefined('test')).toBe(false);
     });
 
     it('should return false for a Regex value', () => {
-      expect(jsonUtils.isUndefined(new RegExp('test', 'g'))).toBe(false);
+      expect(isUndefined(new RegExp('test', 'g'))).toBe(false);
     });
 
     it('should return true for an undefined value', () => {
-      expect(jsonUtils.isUndefined(undefined)).toBe(true);
+      expect(isUndefined(undefined)).toBe(true);
     });
   });
 
@@ -774,20 +793,20 @@ describe('The JSON Utils', () => {
         ],
       };
 
-      const result = jsonUtils.stringify(document);
+      const result = stringify(document);
       const expectedResult = '{\n'
-                + '    "name": "value",\n'
-                + '    "count": 1,\n'
-                + '    "valid": true,\n'
-                + '    "address": {\n'
-                + '        "line1": "line1 value",\n'
-                + '        "line2": "line2 value"\n'
-                + '    },\n'
-                + '    "options": [\n'
-                + '        "email",\n'
-                + '        "print"\n'
-                + '    ]\n'
-                + '}';
+        + '    "name": "value",\n'
+        + '    "count": 1,\n'
+        + '    "valid": true,\n'
+        + '    "address": {\n'
+        + '        "line1": "line1 value",\n'
+        + '        "line2": "line2 value"\n'
+        + '    },\n'
+        + '    "options": [\n'
+        + '        "email",\n'
+        + '        "print"\n'
+        + '    ]\n'
+        + '}';
 
       expect(result).toBe(expectedResult);
     });
@@ -807,20 +826,20 @@ describe('The JSON Utils', () => {
         ],
       };
 
-      const result = jsonUtils.stringify(document, 4, '', false);
+      const result = stringify(document, 4, '', false);
       const expectedResult = '{\n'
-                + '    name: "value",\n'
-                + '    count: 1,\n'
-                + '    valid: true,\n'
-                + '    address: {\n'
-                + '        line1: "line1 value",\n'
-                + '        line2: "line2 value"\n'
-                + '    },\n'
-                + '    options: [\n'
-                + '        "email",\n'
-                + '        "print"\n'
-                + '    ]\n'
-                + '}';
+        + '    name: "value",\n'
+        + '    count: 1,\n'
+        + '    valid: true,\n'
+        + '    address: {\n'
+        + '        line1: "line1 value",\n'
+        + '        line2: "line2 value"\n'
+        + '    },\n'
+        + '    options: [\n'
+        + '        "email",\n'
+        + '        "print"\n'
+        + '    ]\n'
+        + '}';
 
       expect(result).toBe(expectedResult);
     });
@@ -840,20 +859,20 @@ describe('The JSON Utils', () => {
         ],
       };
 
-      const result = jsonUtils.stringify(document, 2);
+      const result = stringify(document, 2);
       const expectedResult = '{\n'
-                + '  "name": "value",\n'
-                + '  "count": 1,\n'
-                + '  "valid": true,\n'
-                + '  "address": {\n'
-                + '    "line1": "line1 value",\n'
-                + '    "line2": "line2 value"\n'
-                + '  },\n'
-                + '  "options": [\n'
-                + '    "email",\n'
-                + '    "print"\n'
-                + '  ]\n'
-                + '}';
+        + '  "name": "value",\n'
+        + '  "count": 1,\n'
+        + '  "valid": true,\n'
+        + '  "address": {\n'
+        + '    "line1": "line1 value",\n'
+        + '    "line2": "line2 value"\n'
+        + '  },\n'
+        + '  "options": [\n'
+        + '    "email",\n'
+        + '    "print"\n'
+        + '  ]\n'
+        + '}';
 
       expect(result).toBe(expectedResult);
     });
@@ -873,20 +892,20 @@ describe('The JSON Utils', () => {
         ],
       };
 
-      const result = jsonUtils.stringify(document, 4, '  ', false);
+      const result = stringify(document, 4, '  ', false);
       const expectedResult = '{\n'
-                + '      name: "value",\n'
-                + '      count: 1,\n'
-                + '      valid: true,\n'
-                + '      address: {\n'
-                + '          line1: "line1 value",\n'
-                + '          line2: "https://line2.value"\n'
-                + '      },\n'
-                + '      options: [\n'
-                + '          "email",\n'
-                + '          "print"\n'
-                + '      ]\n'
-                + '  }';
+        + '      name: "value",\n'
+        + '      count: 1,\n'
+        + '      valid: true,\n'
+        + '      address: {\n'
+        + '          line1: "line1 value",\n'
+        + '          line2: "https://line2.value"\n'
+        + '      },\n'
+        + '      options: [\n'
+        + '          "email",\n'
+        + '          "print"\n'
+        + '      ]\n'
+        + '  }';
 
       expect(result).toBe(expectedResult);
     });

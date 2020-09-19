@@ -3,7 +3,7 @@ export type {
   JsonElementType,
   JsonArrayElementType,
   IJsonObject,
-} from './json.utils';
+} from './types';
 
 export {
   append,
@@ -22,4 +22,4 @@ export {
   isDefined,
   isUndefined,
   stringify,
-} from './json.utils';
+} from './utils';

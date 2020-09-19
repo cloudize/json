@@ -15,8 +15,8 @@ import {
   isDefined,
   isUndefined,
   stringify,
-  JsonObject,
-} from '../../../lib';
+  IJsonObject,
+} from '../../src';
 
 describe('The JSON Utils', () => {
   describe('append() method', () => {
@@ -32,7 +32,8 @@ describe('The JSON Utils', () => {
       expect(append({ a: 1 }, { b: 'Hello' })).toEqual({ a: 1, b: 'Hello' });
     });
 
-    it('should return an extended object with a value being overriden if both the original value and the extension are defined and they have a common element', () => {
+    it('should return an extended object with a value being overriden if both the original value and the extension are '
+      + 'defined and they have a common element', () => {
       expect(append({ a: 1, b: 1 }, { b: 2, c: 'Hello' })).toEqual({ a: 1, b: 2, c: 'Hello' });
     });
 
@@ -205,8 +206,20 @@ describe('The JSON Utils', () => {
       expect(areEqual({ a: 1 }, { a: 1 })).toBe(true);
     });
 
-    it('should return true if the two complex documents that are equal but where the elements are not in the same order', () => {
-      expect(areEqual({ a: 1, b: { b1: true }, c: ['value1', 'value2'] }, { a: 1, c: ['value1', 'value2'], b: { b1: true } })).toBe(true);
+    it('should return true if the two complex documents that are equal but where the elements are not in the '
+      + 'same order', () => {
+      expect(areEqual(
+        {
+          a: 1,
+          b: { b1: true },
+          c: ['value1', 'value2'],
+        },
+        {
+          a: 1,
+          c: ['value1', 'value2'],
+          b: { b1: true },
+        },
+      )).toBe(true);
     });
   });
 
@@ -242,7 +255,7 @@ describe('The JSON Utils', () => {
     });
 
     it('should return an output document that excludes undefined fields in the input document', () => {
-      const document: JsonObject = {
+      const document: IJsonObject = {
         name: 'value',
         count: 1,
         valid: true,
@@ -315,7 +328,7 @@ describe('The JSON Utils', () => {
       const name = extractAndRedact(document, 'name');
       expect(name).toBeDefined();
       expect(name).toBe('value');
-      expect(document.hasOwnProperty('name')).toBe(false);
+      expect(Object.prototype.hasOwnProperty.call(document, 'name')).toBe(false);
     });
 
     it('should return a number element from the document and redact it', () => {
@@ -336,7 +349,7 @@ describe('The JSON Utils', () => {
       const count = extractAndRedact(document, 'count');
       expect(count).toBeDefined();
       expect(count).toBe(1);
-      expect(document.hasOwnProperty('count')).toBe(false);
+      expect(Object.prototype.hasOwnProperty.call(document, 'count')).toBe(false);
     });
 
     it('should return a boolean element from the document and redact it', () => {
@@ -357,7 +370,7 @@ describe('The JSON Utils', () => {
       const valid = extractAndRedact(document, 'valid');
       expect(valid).toBeDefined();
       expect(valid).toBe(true);
-      expect(document.hasOwnProperty('valid')).toBe(false);
+      expect(Object.prototype.hasOwnProperty.call(document, 'valid')).toBe(false);
     });
 
     it('should return an object element from the document and redact it', () => {
@@ -378,7 +391,7 @@ describe('The JSON Utils', () => {
       const address = extractAndRedact(document, 'address');
       expect(address).toBeDefined();
       expect(address).toEqual({ line1: 'line1 value', line2: 'line2 value' });
-      expect(document.hasOwnProperty('address')).toBe(false);
+      expect(Object.prototype.hasOwnProperty.call(document, 'address')).toBe(false);
     });
 
     it('should return an array element from the document and redact it', () => {
@@ -399,7 +412,7 @@ describe('The JSON Utils', () => {
       const options = extractAndRedact(document, 'options');
       expect(options).toBeDefined();
       expect(options).toEqual(['email', 'print']);
-      expect(document.hasOwnProperty('options')).toBe(false);
+      expect(Object.prototype.hasOwnProperty.call(document, 'options')).toBe(false);
     });
   });
 

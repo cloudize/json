@@ -1,15 +1,7 @@
+import { IJsonObject, JsonArrayElementType, JsonElementType } from '.';
+
 const deepEqual = require('deep-equal');
 const clonedeep = require('lodash.clonedeep');
-
-export type JsonNativeElement = boolean | number | string | undefined;
-
-export type JsonElementType = IJsonObject | Array<IJsonObject> | Array<JsonNativeElement> | JsonNativeElement;
-
-export type JsonArrayElementType = Array<IJsonObject> | Array<JsonNativeElement>;
-
-export interface IJsonObject {
-    [index: string]: JsonElementType
-}
 
 export function isArray(value: JsonElementType | object): boolean {
   return ((value !== null) && ((value !== undefined))) && (typeof value === 'object') && (value.constructor === Array);
@@ -118,9 +110,9 @@ export function redactUndefinedValues(document: JsonElementType) {
   }
 }
 
-export function clone(value: IJsonObject, shouldRedactUndefinedValues: boolean = true): IJsonObject {
+export function clone(value: JsonElementType, shouldRedactUndefinedValues: boolean = true): JsonElementType {
   if (value) {
-    const clonedDocument = clonedeep(value);
+    const clonedDocument: JsonElementType = clonedeep(value);
 
     if (shouldRedactUndefinedValues) {
       redactUndefinedValues(clonedDocument);
@@ -132,7 +124,8 @@ export function clone(value: IJsonObject, shouldRedactUndefinedValues: boolean =
   return undefined;
 }
 
-export function stringify(obj: object, indent: number = 4, linePrefix: string = '', quoteFieldNames: boolean = true): string {
+export function stringify(obj: JsonElementType, indent: number = 4, linePrefix: string = '',
+  quoteFieldNames: boolean = true): string {
   const lines = JSON.stringify(obj, null, indent).split('\n');
 
   if (linePrefix !== '') {
@@ -156,9 +149,9 @@ export function stringify(obj: object, indent: number = 4, linePrefix: string = 
   return lines.join('\n');
 }
 
-export function extractAndRedact(document: IJsonObject, propertyName: string): IJsonObject {
+export function extractAndRedact(document: IJsonObject, propertyName: string): JsonElementType {
   if (Object.prototype.hasOwnProperty.call(document, propertyName)) {
-    const value = JSON.parse(JSON.stringify(document[propertyName]));
+    const value: JsonElementType = clone(document[propertyName]);
 
     // eslint-disable-next-line no-param-reassign
     delete document[propertyName];
