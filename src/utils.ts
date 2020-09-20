@@ -1,54 +1,52 @@
-import { IJsonObject, JsonArrayElementType, JsonElementType } from '.';
-
 const deepEqual = require('deep-equal');
 const clonedeep = require('lodash.clonedeep');
 
-export function isArray(value: JsonElementType | object): boolean {
+export function isArray(value: any): boolean {
   return ((value !== null) && ((value !== undefined))) && (typeof value === 'object') && (value.constructor === Array);
 }
 
-export function isBoolean(value: JsonElementType | object): boolean {
+export function isBoolean(value: any): boolean {
   return ((value !== null) && ((value !== undefined))) && (typeof value === 'boolean');
 }
 
-export function isDate(value: JsonElementType | object): boolean {
+export function isDate(value: any): boolean {
   return ((value !== null) && ((value !== undefined))) && (value instanceof Date);
 }
 
-export function isEmpty(document: JsonElementType | object): boolean {
+export function isEmpty(document: any): boolean {
   return (!document) || (Object.keys(document).length === 0 && document.constructor === Object);
 }
 
-export function isError(value: JsonElementType | object): boolean {
+export function isError(value: any): boolean {
   return ((value !== null) && ((value !== undefined))) && (value instanceof Error) && (typeof value.message !== 'undefined');
 }
 
-export function isNumber(value: JsonElementType | object): boolean {
+export function isNumber(value: any): boolean {
   // eslint-disable-next-line no-restricted-globals
   return ((value !== null) && ((value !== undefined))) && (typeof value === 'number') && isFinite(value);
 }
 
-export function isObject(value: JsonElementType | object): boolean {
+export function isObject(value: any): boolean {
   return ((value !== null) && ((value !== undefined))) && (typeof value === 'object') && (value.constructor === Object);
 }
 
-export function isRegExp(value: JsonElementType | object): boolean {
+export function isRegExp(value: any): boolean {
   return ((value !== null) && ((value !== undefined))) && (typeof value === 'object') && (value.constructor === RegExp);
 }
 
-export function isString(value: JsonElementType | object): boolean {
+export function isString(value: any): boolean {
   return ((value !== null) && ((value !== undefined))) && ((typeof value === 'string') || (value instanceof String));
 }
 
-export function isDefined(value: JsonElementType | object): boolean {
+export function isDefined(value: any): boolean {
   return (value !== undefined);
 }
 
-export function isUndefined(value: JsonElementType | object): boolean {
+export function isUndefined(value: any): boolean {
   return (value === undefined);
 }
 
-export function append(document: JsonElementType, extensionDocument: JsonElementType): JsonElementType {
+export function append(document: any, extensionDocument: any): any {
   const doc: any = document || {};
   const extensionDoc: any = extensionDocument || {};
 
@@ -80,39 +78,39 @@ export function append(document: JsonElementType, extensionDocument: JsonElement
   return doc;
 }
 
-export function areEqual(firstObject: JsonElementType, secondObject: JsonElementType): boolean {
+export function areEqual(firstObject: any, secondObject: any): boolean {
   return deepEqual(firstObject, secondObject);
 }
 
-export function redactUndefinedValues(document: JsonElementType) {
+export function redactUndefinedValues(document: any) {
   if (isArray(document)) {
     // eslint-disable-next-line no-plusplus
-    for (let index = (document as JsonArrayElementType).length - 1; index >= 0; index--) {
-      if (isDefined((document as JsonArrayElementType)[index])) {
-        redactUndefinedValues((document as JsonArrayElementType)[index]);
+    for (let index = document.length - 1; index >= 0; index--) {
+      if (isDefined(document[index])) {
+        redactUndefinedValues(document[index]);
       } else {
         // eslint-disable-next-line no-param-reassign
-        document = (document as JsonArrayElementType).splice(index, 1);
+        document = document.splice(index, 1);
       }
     }
   } else if (isObject(document)) {
     // eslint-disable-next-line no-restricted-syntax
     for (const key in (document as object)) {
       if (Object.prototype.hasOwnProperty.call(document, key)) {
-        if (isDefined((document as IJsonObject)[key])) {
-          redactUndefinedValues((document as IJsonObject)[key]);
+        if (isDefined(document[key])) {
+          redactUndefinedValues(document[key]);
         } else {
           // eslint-disable-next-line no-param-reassign
-          delete (document as IJsonObject)[key];
+          delete document[key];
         }
       }
     }
   }
 }
 
-export function clone(value: JsonElementType, shouldRedactUndefinedValues: boolean = true): JsonElementType {
+export function clone(value: any, shouldRedactUndefinedValues: boolean = true): any {
   if (value) {
-    const clonedDocument: JsonElementType = clonedeep(value);
+    const clonedDocument: any = clonedeep(value);
 
     if (shouldRedactUndefinedValues) {
       redactUndefinedValues(clonedDocument);
@@ -124,7 +122,7 @@ export function clone(value: JsonElementType, shouldRedactUndefinedValues: boole
   return undefined;
 }
 
-export function stringify(obj: JsonElementType, indent: number = 4, linePrefix: string = '',
+export function stringify(obj: any, indent: number = 4, linePrefix: string = '',
   quoteFieldNames: boolean = true): string {
   const lines = JSON.stringify(obj, null, indent).split('\n');
 
@@ -149,9 +147,9 @@ export function stringify(obj: JsonElementType, indent: number = 4, linePrefix: 
   return lines.join('\n');
 }
 
-export function extractAndRedact(document: IJsonObject, propertyName: string): JsonElementType {
+export function extractAndRedact(document: any, propertyName: string): any {
   if (Object.prototype.hasOwnProperty.call(document, propertyName)) {
-    const value: JsonElementType = clone(document[propertyName]);
+    const value: any = clone(document[propertyName]);
 
     // eslint-disable-next-line no-param-reassign
     delete document[propertyName];

@@ -1,10 +1,3 @@
-export type {
-  JsonNativeElement,
-  JsonElementType,
-  JsonArrayElementType,
-  IJsonObject,
-} from './types';
-
 export {
   append,
   areEqual,
