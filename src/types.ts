@@ -1,4 +1,4 @@
-export type JsonNativeElement = boolean | number | string | undefined;
+export type JsonNativeElement = boolean | number | string | Date | undefined;
 
 export type JsonElementType = IJsonObject | Array<IJsonObject> | Array<JsonNativeElement> | JsonNativeElement;
 

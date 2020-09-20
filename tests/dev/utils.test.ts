@@ -206,6 +206,11 @@ describe('The JSON Utils', () => {
       expect(areEqual({ a: 1 }, { a: 1 })).toBe(true);
     });
 
+    it('should return true if the two simple documents including dates', () => {
+      const testdate = new Date();
+      expect(areEqual({ a: 1, date: testdate }, { a: 1, date: testdate })).toBe(true);
+    });
+
     it('should return true if the two complex documents that are equal but where the elements are not in the '
       + 'same order', () => {
       expect(areEqual(
