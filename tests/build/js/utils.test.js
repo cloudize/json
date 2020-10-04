@@ -398,6 +398,33 @@ describe('The JSON Utils', () => {
     });
   });
 
+  describe('hasProperty() method', () => {
+    it('should return false for an undefined object', () => {
+      const result = jsonUtils.hasProperty(undefined, 'property');
+      expect(result).toBe(false);
+    });
+
+    it('should return false for an invalid object', () => {
+      const result = jsonUtils.hasProperty(5, 'property');
+      expect(result).toBe(false);
+    });
+
+    it('should return false for an array', () => {
+      const result = jsonUtils.hasProperty([], 'property');
+      expect(result).toBe(false);
+    });
+
+    it('should return false for an object without the property', () => {
+      const result = jsonUtils.hasProperty({}, 'property');
+      expect(result).toBe(false);
+    });
+
+    it('should return true for an object with the property', () => {
+      const result = jsonUtils.hasProperty({ property: 1 }, 'property');
+      expect(result).toBe(true);
+    });
+  });
+
   describe('isArray() method', () => {
     it('should return true for an empty array', () => {
       const result = jsonUtils.isArray([]);

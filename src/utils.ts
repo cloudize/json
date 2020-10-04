@@ -46,6 +46,10 @@ export function isUndefined(value: any): boolean {
   return (value === undefined);
 }
 
+export function hasProperty(obj: any, property: string): boolean {
+  return isDefined(obj) && isObject(obj) && Object.prototype.hasOwnProperty.call(obj, property);
+}
+
 export function append(document: any, extensionDocument: any): any {
   const doc: any = document || {};
   const extensionDoc: any = extensionDocument || {};

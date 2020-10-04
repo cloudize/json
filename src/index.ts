@@ -3,6 +3,7 @@ export {
   areEqual,
   clone,
   extractAndRedact,
+  hasProperty,
   isArray,
   isBoolean,
   isDate,

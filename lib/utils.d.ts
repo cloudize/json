@@ -9,6 +9,7 @@ export declare function isRegExp(value: any): boolean;
 export declare function isString(value: any): boolean;
 export declare function isDefined(value: any): boolean;
 export declare function isUndefined(value: any): boolean;
+export declare function hasProperty(obj: any, property: string): boolean;
 export declare function append(document: any, extensionDocument: any): any;
 export declare function areEqual(firstObject: any, secondObject: any): boolean;
 export declare function redactUndefinedValues(document: any): void;

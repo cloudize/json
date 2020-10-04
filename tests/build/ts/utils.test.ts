@@ -16,6 +16,7 @@ import {
   isUndefined,
   stringify,
 } from '../../../lib';
+import {hasProperty} from "../../../src";
 
 describe('The JSON Utils', () => {
   describe('append() method', () => {
@@ -412,6 +413,33 @@ describe('The JSON Utils', () => {
       expect(options).toBeDefined();
       expect(options).toEqual(['email', 'print']);
       expect(Object.prototype.hasOwnProperty.call(document, 'options')).toBe(false);
+    });
+  });
+
+  describe('hasProperty() method', () => {
+    it('should return false for an undefined object', () => {
+      const result = hasProperty(undefined, 'property');
+      expect(result).toBe(false);
+    });
+
+    it('should return false for an invalid object', () => {
+      const result = hasProperty(5, 'property');
+      expect(result).toBe(false);
+    });
+
+    it('should return false for an array', () => {
+      const result = hasProperty([], 'property');
+      expect(result).toBe(false);
+    });
+
+    it('should return false for an object without the property', () => {
+      const result = hasProperty({}, 'property');
+      expect(result).toBe(false);
+    });
+
+    it('should return true for an object with the property', () => {
+      const result = hasProperty({ property: 1 }, 'property');
+      expect(result).toBe(true);
     });
   });
 
