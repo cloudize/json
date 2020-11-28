@@ -7,8 +7,8 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "ms:build": "rmdir /s /q lib & tsc & jest --config build.jest.config.js",
-    "mac:build": "rm -rf lib;tsc;jest --config build.jest.config.js",
+    "win:build": "rmdir /s /q lib & tsc & jest --config build.jest.config.js",
+    "build": "rm -rf lib;tsc;jest --config build.jest.config.js",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch"
   },
