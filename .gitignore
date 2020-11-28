@@ -65,4 +65,5 @@ typings/
 
 # Webstorm config and coverage files
 .idea
-coverage
+coverage/
+lib/
