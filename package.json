@@ -7,7 +7,7 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "win:build": "rmdir /s /q lib & tsc && jest && jest --config build.jest.config.js --coverage",
+    "win:build": "rmdir /s /q lib && tsc && jest && jest --config build.jest.config.js --coverage",
     "build": "rm -rf lib && tsc && jest && jest --config build.jest.config.js --coverage",
     "win:publish": "rmdir /s /q lib && tsc && jest && jest --config build.jest.config.js && npm publish",
     "publish": "rm -rf lib && tsc && jest && jest --config build.jest.config.js && npm publish",
