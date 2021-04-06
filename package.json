@@ -7,14 +7,14 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "win:upgrade-latest": "(if exist node_modules rmdir /s /q node_modules) && (if exist package-lock.json del /s /q package-lock.json) && ncu -u --target latest && npm install",
-    "unx:upgrade-latest": "rm -rf node_modules && rm -f package-lock.json && ncu -u --target latest && npm install",
-    "win:upgrade-minor": "(if exist node_modules rmdir /s /q node_modules) && (if exist package-lock.json del /s /q package-lock.json) && ncu -u --target minor && npm install",
-    "unx:upgrade-minor": "rm -rf node_modules && rm -f package-lock.json && ncu -u --target minor && npm install",
     "win:build": "(if exist lib rmdir /s /q lib) && tsc && jest && jest --config build.jest.config.js --coverage",
     "unx:build": "rm -rf lib && tsc && jest && jest --config build.jest.config.js --coverage",
     "win:publish": "(if exist lib rmdir /s /q lib) && tsc && jest && jest --config build.jest.config.js && npm publish",
     "unx:publish": "rm -rf lib && tsc && jest && jest --config build.jest.config.js && npm publish",
+    "win:upgrade-latest": "(if exist node_modules rmdir /s /q node_modules) && (if exist package-lock.json del /s /q package-lock.json) && ncu -u --target latest && npm install",
+    "unx:upgrade-latest": "rm -rf node_modules && rm -f package-lock.json && ncu -u --target latest && npm install",
+    "win:upgrade-minor": "(if exist node_modules rmdir /s /q node_modules) && (if exist package-lock.json del /s /q package-lock.json) && ncu -u --target minor && npm install",
+    "unx:upgrade-minor": "rm -rf node_modules && rm -f package-lock.json && ncu -u --target minor && npm install",
     "test:coverage": "jest --coverage",
     "test:watch": "jest --watch"
   },
