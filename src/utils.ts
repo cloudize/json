@@ -42,8 +42,16 @@ export function isDefined(value: any): boolean {
   return (value !== undefined);
 }
 
+export function isDefinedAndNotNull(value: any): boolean {
+  return (value !== undefined) && (value !== null);
+}
+
 export function isUndefined(value: any): boolean {
   return (value === undefined);
+}
+
+export function isUndefinedOrNull(value: any): boolean {
+  return (value === undefined) || (value === null);
 }
 
 export function hasProperty(obj: any, property: string): boolean {

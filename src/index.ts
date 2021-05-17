@@ -14,6 +14,8 @@ export {
   isRegExp,
   isString,
   isDefined,
+  isDefinedAndNotNull,
   isUndefined,
+  isUndefinedOrNull,
   stringify,
 } from './utils';

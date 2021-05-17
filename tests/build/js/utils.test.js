@@ -743,8 +743,54 @@ describe('The JSON Utils', () => {
       expect(jsonUtils.isDefined(new RegExp('test', 'g'))).toBe(true);
     });
 
+    it('should return true for a null value', () => {
+      expect(jsonUtils.isDefined(null)).toBe(true);
+    });
+
     it('should return true for an undefined value', () => {
       expect(jsonUtils.isDefined(undefined)).toBe(false);
+    });
+  });
+
+  describe('isDefinedAndNotNull() method', () => {
+    it('should return false for a boolean value', () => {
+      expect(jsonUtils.isDefinedAndNotNull(true)).toBe(true);
+    });
+
+    it('should return false for an array value', () => {
+      expect(jsonUtils.isDefinedAndNotNull([])).toBe(true);
+    });
+
+    it('should return false for a date value', () => {
+      expect(jsonUtils.isDefinedAndNotNull(new Date())).toBe(true);
+    });
+
+    it('should return false for an error object', () => {
+      expect(jsonUtils.isDefinedAndNotNull(new Error('Test'))).toBe(true);
+    });
+
+    it('should return false for a number value', () => {
+      expect(jsonUtils.isDefinedAndNotNull(5)).toBe(true);
+    });
+
+    it('should return false for an Object value', () => {
+      expect(jsonUtils.isDefinedAndNotNull({})).toBe(true);
+    });
+
+    it('should return true for a string value', () => {
+      expect(jsonUtils.isDefinedAndNotNull('test')).toBe(true);
+    });
+
+    it('should return false for a Regex value', () => {
+      expect(jsonUtils.isDefinedAndNotNull(new RegExp('test', 'g'))).toBe(true);
+    });
+
+    it('should return false for a null value', () => {
+      expect(jsonUtils.isDefinedAndNotNull(null)).toBe(false);
+    });
+
+    it('should return true for an undefined value', () => {
+      expect(jsonUtils.isDefinedAndNotNull(undefined)).toBe(false);
     });
   });
 
@@ -781,8 +827,54 @@ describe('The JSON Utils', () => {
       expect(jsonUtils.isUndefined(new RegExp('test', 'g'))).toBe(false);
     });
 
+    it('should return false for a null value', () => {
+      expect(jsonUtils.isUndefined(null)).toBe(false);
+    });
+
     it('should return true for an undefined value', () => {
       expect(jsonUtils.isUndefined(undefined)).toBe(true);
+    });
+  });
+
+  describe('isUndefinedOrNull() method', () => {
+    it('should return false for a boolean value', () => {
+      expect(jsonUtils.isUndefinedOrNull(true)).toBe(false);
+    });
+
+    it('should return false for an array value', () => {
+      expect(jsonUtils.isUndefinedOrNull([])).toBe(false);
+    });
+
+    it('should return false for a date value', () => {
+      expect(jsonUtils.isUndefinedOrNull(new Date())).toBe(false);
+    });
+
+    it('should return false for an error object', () => {
+      expect(jsonUtils.isUndefinedOrNull(new Error('Test'))).toBe(false);
+    });
+
+    it('should return false for a number value', () => {
+      expect(jsonUtils.isUndefinedOrNull(5)).toBe(false);
+    });
+
+    it('should return false for an Object value', () => {
+      expect(jsonUtils.isUndefinedOrNull({})).toBe(false);
+    });
+
+    it('should return true for a string value', () => {
+      expect(jsonUtils.isUndefinedOrNull('test')).toBe(false);
+    });
+
+    it('should return false for a Regex value', () => {
+      expect(jsonUtils.isUndefinedOrNull(new RegExp('test', 'g'))).toBe(false);
+    });
+
+    it('should return true for a null value', () => {
+      expect(jsonUtils.isUndefinedOrNull(null)).toBe(true);
+    });
+
+    it('should return true for an undefined value', () => {
+      expect(jsonUtils.isUndefinedOrNull(undefined)).toBe(true);
     });
   });
 
