@@ -78,6 +78,21 @@ describe('The JSON Utils', () => {
               'third Array Item',
             ],
           },
+          fouthElement: [
+            {
+              name: 'first',
+              children: [
+                { name: 'first' },
+              ],
+            },
+            {
+              name: 'second',
+              children: [
+                { name: 'first' },
+                { name: 'second' },
+              ],
+            },
+          ],
         },
       };
       const extensionDocument = {
@@ -122,6 +137,16 @@ describe('The JSON Utils', () => {
               'fifth Array Item',
             ],
           },
+          fouthElement: [
+            {
+              name: 'third',
+              children: [
+                { name: 'first' },
+                { name: 'second' },
+                { name: 'third' },
+              ],
+            },
+          ],
         },
         d: 'new value',
       };
@@ -179,6 +204,29 @@ describe('The JSON Utils', () => {
               'fifth Array Item',
             ],
           },
+          fouthElement: [
+            {
+              name: 'first',
+              children: [
+                { name: 'first' },
+              ],
+            },
+            {
+              name: 'second',
+              children: [
+                { name: 'first' },
+                { name: 'second' },
+              ],
+            },
+            {
+              name: 'third',
+              children: [
+                { name: 'first' },
+                { name: 'second' },
+                { name: 'third' },
+              ],
+            },
+          ],
         },
         d: 'new value',
       };
