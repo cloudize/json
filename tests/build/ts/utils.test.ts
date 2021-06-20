@@ -7,14 +7,16 @@ import {
   isArray,
   isBoolean,
   isDate,
+  isDefined,
+  isDefinedAndNotNull,
   isEmpty,
   isError,
+  isFalse,
   isNumber,
   isObject,
   isRegExp,
   isString,
-  isDefined,
-  isDefinedAndNotNull,
+  isTrue,
   isUndefined,
   isUndefinedOrNull,
   stringify,
@@ -78,6 +80,21 @@ describe('The JSON Utils', () => {
               'third Array Item',
             ],
           },
+          fouthElement: [
+            {
+              name: 'first',
+              children: [
+                { name: 'first' },
+              ],
+            },
+            {
+              name: 'second',
+              children: [
+                { name: 'first' },
+                { name: 'second' },
+              ],
+            },
+          ],
         },
       };
       const extensionDocument = {
@@ -122,6 +139,16 @@ describe('The JSON Utils', () => {
               'fifth Array Item',
             ],
           },
+          fouthElement: [
+            {
+              name: 'third',
+              children: [
+                { name: 'first' },
+                { name: 'second' },
+                { name: 'third' },
+              ],
+            },
+          ],
         },
         d: 'new value',
       };
@@ -179,6 +206,29 @@ describe('The JSON Utils', () => {
               'fifth Array Item',
             ],
           },
+          fouthElement: [
+            {
+              name: 'first',
+              children: [
+                { name: 'first' },
+              ],
+            },
+            {
+              name: 'second',
+              children: [
+                { name: 'first' },
+                { name: 'second' },
+              ],
+            },
+            {
+              name: 'third',
+              children: [
+                { name: 'first' },
+                { name: 'second' },
+                { name: 'third' },
+              ],
+            },
+          ],
         },
         d: 'new value',
       };
@@ -206,6 +256,11 @@ describe('The JSON Utils', () => {
 
     it('should return true if the two simple documents that are equal', () => {
       expect(areEqual({ a: 1 }, { a: 1 })).toBe(true);
+    });
+
+    it('should return true if the two simple documents including dates', () => {
+      const testdate = new Date();
+      expect(areEqual({ a: 1, date: testdate }, { a: 1, date: testdate })).toBe(true);
     });
 
     it('should return true if the two complex documents that are equal but where the elements are not in the '
@@ -545,6 +600,90 @@ describe('The JSON Utils', () => {
     });
   });
 
+  describe('isDefined() method', () => {
+    it('should return true for a boolean value', () => {
+      expect(isDefined(true)).toBe(true);
+    });
+
+    it('should return true for an array value', () => {
+      expect(isDefined([])).toBe(true);
+    });
+
+    it('should return true for a date value', () => {
+      expect(isDefined(new Date())).toBe(true);
+    });
+
+    it('should return true for an error object', () => {
+      expect(isDefined(new Error('Test'))).toBe(true);
+    });
+
+    it('should return true for a number value', () => {
+      expect(isDefined(5)).toBe(true);
+    });
+
+    it('should return true for an Object value', () => {
+      expect(isDefined({})).toBe(true);
+    });
+
+    it('should return true for a string value', () => {
+      expect(isDefined('test')).toBe(true);
+    });
+
+    it('should return true for a Regex value', () => {
+      expect(isDefined(new RegExp('test', 'g'))).toBe(true);
+    });
+
+    it('should return true for a null value', () => {
+      expect(isDefined(null)).toBe(true);
+    });
+
+    it('should return false for an undefined value', () => {
+      expect(isDefined(undefined)).toBe(false);
+    });
+  });
+
+  describe('isDefinedAndNotNull() method', () => {
+    it('should return true for a boolean value', () => {
+      expect(isDefinedAndNotNull(true)).toBe(true);
+    });
+
+    it('should return true for an array value', () => {
+      expect(isDefinedAndNotNull([])).toBe(true);
+    });
+
+    it('should return true for a date value', () => {
+      expect(isDefinedAndNotNull(new Date())).toBe(true);
+    });
+
+    it('should return true for an error object', () => {
+      expect(isDefinedAndNotNull(new Error('Test'))).toBe(true);
+    });
+
+    it('should return true for a number value', () => {
+      expect(isDefinedAndNotNull(5)).toBe(true);
+    });
+
+    it('should return true for an Object value', () => {
+      expect(isDefinedAndNotNull({})).toBe(true);
+    });
+
+    it('should return true for a string value', () => {
+      expect(isDefinedAndNotNull('test')).toBe(true);
+    });
+
+    it('should return true for a Regex value', () => {
+      expect(isDefinedAndNotNull(new RegExp('test', 'g'))).toBe(true);
+    });
+
+    it('should return false for a null value', () => {
+      expect(isDefinedAndNotNull(null)).toBe(false);
+    });
+
+    it('should return false for an undefined value', () => {
+      expect(isDefinedAndNotNull(undefined)).toBe(false);
+    });
+  });
+
   describe('isEmpty() method', () => {
     it('should return true for an undefined document', () => {
       const result = isEmpty(undefined);
@@ -603,6 +742,52 @@ describe('The JSON Utils', () => {
 
     it('should return false for an Regex field', () => {
       expect(isError(new RegExp('test', 'g'))).toBe(false);
+    });
+  });
+
+  describe('isFalse() method', () => {
+    it('should return false for an undefined value', () => {
+      expect(isFalse(undefined)).toBe(false);
+    });
+
+    it('should return false for a null value', () => {
+      expect(isFalse(null)).toBe(false);
+    });
+
+    it('should return false for a true (boolean) field', () => {
+      expect(isFalse(true)).toBe(false);
+    });
+
+    it('should return true for a false (boolean) field', () => {
+      expect(isFalse(false)).toBe(true);
+    });
+
+    it('should return false for an array field', () => {
+      expect(isFalse([])).toBe(false);
+    });
+
+    it('should return false for an date field', () => {
+      expect(isFalse(new Date())).toBe(false);
+    });
+
+    it('should return false for an error object', () => {
+      expect(isFalse(new Error('Test'))).toBe(false);
+    });
+
+    it('should return false for an number field', () => {
+      expect(isFalse(5)).toBe(false);
+    });
+
+    it('should return false for an Object field', () => {
+      expect(isFalse({})).toBe(false);
+    });
+
+    it('should return false for an string field', () => {
+      expect(isFalse('test')).toBe(false);
+    });
+
+    it('should return false for an Regex field', () => {
+      expect(isFalse(new RegExp('test', 'g'))).toBe(false);
     });
   });
 
@@ -730,87 +915,49 @@ describe('The JSON Utils', () => {
     });
   });
 
-  describe('isDefined() method', () => {
-    it('should return false for a boolean value', () => {
-      expect(isDefined(true)).toBe(true);
-    });
-
-    it('should return false for an array value', () => {
-      expect(isDefined([])).toBe(true);
-    });
-
-    it('should return false for a date value', () => {
-      expect(isDefined(new Date())).toBe(true);
-    });
-
-    it('should return false for an error object', () => {
-      expect(isDefined(new Error('Test'))).toBe(true);
-    });
-
-    it('should return false for a number value', () => {
-      expect(isDefined(5)).toBe(true);
-    });
-
-    it('should return false for an Object value', () => {
-      expect(isDefined({})).toBe(true);
-    });
-
-    it('should return true for a string value', () => {
-      expect(isDefined('test')).toBe(true);
-    });
-
-    it('should return false for a Regex value', () => {
-      expect(isDefined(new RegExp('test', 'g'))).toBe(true);
-    });
-
-    it('should return true for a null value', () => {
-      expect(isDefined(null)).toBe(true);
-    });
-
-    it('should return true for an undefined value', () => {
-      expect(isDefined(undefined)).toBe(false);
-    });
-  });
-
-  describe('isDefinedAndNotNull() method', () => {
-    it('should return false for a boolean value', () => {
-      expect(isDefinedAndNotNull(true)).toBe(true);
-    });
-
-    it('should return false for an array value', () => {
-      expect(isDefinedAndNotNull([])).toBe(true);
-    });
-
-    it('should return false for a date value', () => {
-      expect(isDefinedAndNotNull(new Date())).toBe(true);
-    });
-
-    it('should return false for an error object', () => {
-      expect(isDefinedAndNotNull(new Error('Test'))).toBe(true);
-    });
-
-    it('should return false for a number value', () => {
-      expect(isDefinedAndNotNull(5)).toBe(true);
-    });
-
-    it('should return false for an Object value', () => {
-      expect(isDefinedAndNotNull({})).toBe(true);
-    });
-
-    it('should return true for a string value', () => {
-      expect(isDefinedAndNotNull('test')).toBe(true);
-    });
-
-    it('should return false for a Regex value', () => {
-      expect(isDefinedAndNotNull(new RegExp('test', 'g'))).toBe(true);
+  describe('isTrue() method', () => {
+    it('should return false for an undefined value', () => {
+      expect(isTrue(undefined)).toBe(false);
     });
 
     it('should return false for a null value', () => {
-      expect(isDefinedAndNotNull(null)).toBe(false);
+      expect(isTrue(null)).toBe(false);
     });
 
-    it('should return true for an undefined value', () => {
-      expect(isDefinedAndNotNull(undefined)).toBe(false);
+    it('should return true for a false (boolean) field', () => {
+      expect(isTrue(false)).toBe(false);
+    });
+
+    it('should return false for a true (boolean) field', () => {
+      expect(isTrue(true)).toBe(true);
+    });
+
+    it('should return false for an array field', () => {
+      expect(isTrue([])).toBe(false);
+    });
+
+    it('should return false for an date field', () => {
+      expect(isTrue(new Date())).toBe(false);
+    });
+
+    it('should return false for an error object', () => {
+      expect(isTrue(new Error('Test'))).toBe(false);
+    });
+
+    it('should return false for an number field', () => {
+      expect(isTrue(5)).toBe(false);
+    });
+
+    it('should return false for an Object field', () => {
+      expect(isTrue({})).toBe(false);
+    });
+
+    it('should return false for an string field', () => {
+      expect(isTrue('test')).toBe(false);
+    });
+
+    it('should return false for an Regex field', () => {
+      expect(isTrue(new RegExp('test', 'g'))).toBe(false);
     });
   });
 

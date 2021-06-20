@@ -13,12 +13,24 @@ export function isDate(value: any): boolean {
   return ((value !== null) && ((value !== undefined))) && (value instanceof Date);
 }
 
+export function isDefined(value: any): boolean {
+  return (value !== undefined);
+}
+
+export function isDefinedAndNotNull(value: any): boolean {
+  return (value !== undefined) && (value !== null);
+}
+
 export function isEmpty(document: any): boolean {
   return (!document) || (Object.keys(document).length === 0 && document.constructor === Object);
 }
 
 export function isError(value: any): boolean {
   return ((value !== null) && ((value !== undefined))) && (value instanceof Error) && (typeof value.message !== 'undefined');
+}
+
+export function isFalse(value: any): boolean {
+  return isBoolean(value) && (value === false);
 }
 
 export function isNumber(value: any): boolean {
@@ -38,12 +50,8 @@ export function isString(value: any): boolean {
   return ((value !== null) && ((value !== undefined))) && ((typeof value === 'string') || (value instanceof String));
 }
 
-export function isDefined(value: any): boolean {
-  return (value !== undefined);
-}
-
-export function isDefinedAndNotNull(value: any): boolean {
-  return (value !== undefined) && (value !== null);
+export function isTrue(value: any): boolean {
+  return isBoolean(value) && (value === true);
 }
 
 export function isUndefined(value: any): boolean {

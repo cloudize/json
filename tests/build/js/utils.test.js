@@ -58,6 +58,21 @@ describe('The JSON Utils', () => {
               'third Array Item',
             ],
           },
+          fouthElement: [
+            {
+              name: 'first',
+              children: [
+                { name: 'first' },
+              ],
+            },
+            {
+              name: 'second',
+              children: [
+                { name: 'first' },
+                { name: 'second' },
+              ],
+            },
+          ],
         },
       };
       const extensionDocument = {
@@ -102,6 +117,16 @@ describe('The JSON Utils', () => {
               'fifth Array Item',
             ],
           },
+          fouthElement: [
+            {
+              name: 'third',
+              children: [
+                { name: 'first' },
+                { name: 'second' },
+                { name: 'third' },
+              ],
+            },
+          ],
         },
         d: 'new value',
       };
@@ -159,6 +184,29 @@ describe('The JSON Utils', () => {
               'fifth Array Item',
             ],
           },
+          fouthElement: [
+            {
+              name: 'first',
+              children: [
+                { name: 'first' },
+              ],
+            },
+            {
+              name: 'second',
+              children: [
+                { name: 'first' },
+                { name: 'second' },
+              ],
+            },
+            {
+              name: 'third',
+              children: [
+                { name: 'first' },
+                { name: 'second' },
+                { name: 'third' },
+              ],
+            },
+          ],
         },
         d: 'new value',
       };
@@ -167,7 +215,7 @@ describe('The JSON Utils', () => {
     });
   });
 
-  describe('jsonUtils.areEqual() method', () => {
+  describe('areEqual() method', () => {
     it('should return true for two undefined inputs', () => {
       expect(jsonUtils.areEqual(undefined, undefined)).toBe(true);
     });
@@ -186,6 +234,11 @@ describe('The JSON Utils', () => {
 
     it('should return true if the two simple documents that are equal', () => {
       expect(jsonUtils.areEqual({ a: 1 }, { a: 1 })).toBe(true);
+    });
+
+    it('should return true if the two simple documents including dates', () => {
+      const testdate = new Date();
+      expect(jsonUtils.areEqual({ a: 1, date: testdate }, { a: 1, date: testdate })).toBe(true);
     });
 
     it('should return true if the two complex documents that are equal but where the elements are not in the '
@@ -525,6 +578,90 @@ describe('The JSON Utils', () => {
     });
   });
 
+  describe('isDefined() method', () => {
+    it('should return true for a boolean value', () => {
+      expect(jsonUtils.isDefined(true)).toBe(true);
+    });
+
+    it('should return true for an array value', () => {
+      expect(jsonUtils.isDefined([])).toBe(true);
+    });
+
+    it('should return true for a date value', () => {
+      expect(jsonUtils.isDefined(new Date())).toBe(true);
+    });
+
+    it('should return true for an error object', () => {
+      expect(jsonUtils.isDefined(new Error('Test'))).toBe(true);
+    });
+
+    it('should return true for a number value', () => {
+      expect(jsonUtils.isDefined(5)).toBe(true);
+    });
+
+    it('should return true for an Object value', () => {
+      expect(jsonUtils.isDefined({})).toBe(true);
+    });
+
+    it('should return true for a string value', () => {
+      expect(jsonUtils.isDefined('test')).toBe(true);
+    });
+
+    it('should return true for a Regex value', () => {
+      expect(jsonUtils.isDefined(new RegExp('test', 'g'))).toBe(true);
+    });
+
+    it('should return true for a null value', () => {
+      expect(jsonUtils.isDefined(null)).toBe(true);
+    });
+
+    it('should return true for an undefined value', () => {
+      expect(jsonUtils.isDefined(undefined)).toBe(false);
+    });
+  });
+
+  describe('isDefinedAndNotNull() method', () => {
+    it('should return true for a boolean value', () => {
+      expect(jsonUtils.isDefinedAndNotNull(true)).toBe(true);
+    });
+
+    it('should return true for an array value', () => {
+      expect(jsonUtils.isDefinedAndNotNull([])).toBe(true);
+    });
+
+    it('should return true for a date value', () => {
+      expect(jsonUtils.isDefinedAndNotNull(new Date())).toBe(true);
+    });
+
+    it('should return true for an error object', () => {
+      expect(jsonUtils.isDefinedAndNotNull(new Error('Test'))).toBe(true);
+    });
+
+    it('should return true for a number value', () => {
+      expect(jsonUtils.isDefinedAndNotNull(5)).toBe(true);
+    });
+
+    it('should return true for an Object value', () => {
+      expect(jsonUtils.isDefinedAndNotNull({})).toBe(true);
+    });
+
+    it('should return true for a string value', () => {
+      expect(jsonUtils.isDefinedAndNotNull('test')).toBe(true);
+    });
+
+    it('should return true for a Regex value', () => {
+      expect(jsonUtils.isDefinedAndNotNull(new RegExp('test', 'g'))).toBe(true);
+    });
+
+    it('should return false for a null value', () => {
+      expect(jsonUtils.isDefinedAndNotNull(null)).toBe(false);
+    });
+
+    it('should return false for an undefined value', () => {
+      expect(jsonUtils.isDefinedAndNotNull(undefined)).toBe(false);
+    });
+  });
+
   describe('isEmpty() method', () => {
     it('should return true for an undefined document', () => {
       const result = jsonUtils.isEmpty(undefined);
@@ -583,6 +720,52 @@ describe('The JSON Utils', () => {
 
     it('should return false for an Regex field', () => {
       expect(jsonUtils.isError(new RegExp('test', 'g'))).toBe(false);
+    });
+  });
+
+  describe('isFalse() method', () => {
+    it('should return false for an undefined value', () => {
+      expect(jsonUtils.isFalse(undefined)).toBe(false);
+    });
+
+    it('should return false for a null value', () => {
+      expect(jsonUtils.isFalse(null)).toBe(false);
+    });
+
+    it('should return false for a true (boolean) field', () => {
+      expect(jsonUtils.isFalse(true)).toBe(false);
+    });
+
+    it('should return true for a false (boolean) field', () => {
+      expect(jsonUtils.isFalse(false)).toBe(true);
+    });
+
+    it('should return false for an array field', () => {
+      expect(jsonUtils.isFalse([])).toBe(false);
+    });
+
+    it('should return false for an date field', () => {
+      expect(jsonUtils.isFalse(new Date())).toBe(false);
+    });
+
+    it('should return false for an error object', () => {
+      expect(jsonUtils.isFalse(new Error('Test'))).toBe(false);
+    });
+
+    it('should return false for an number field', () => {
+      expect(jsonUtils.isFalse(5)).toBe(false);
+    });
+
+    it('should return false for an Object field', () => {
+      expect(jsonUtils.isFalse({})).toBe(false);
+    });
+
+    it('should return false for an string field', () => {
+      expect(jsonUtils.isFalse('test')).toBe(false);
+    });
+
+    it('should return false for an Regex field', () => {
+      expect(jsonUtils.isFalse(new RegExp('test', 'g'))).toBe(false);
     });
   });
 
@@ -710,87 +893,49 @@ describe('The JSON Utils', () => {
     });
   });
 
-  describe('isDefined() method', () => {
-    it('should return false for a boolean value', () => {
-      expect(jsonUtils.isDefined(true)).toBe(true);
-    });
-
-    it('should return false for an array value', () => {
-      expect(jsonUtils.isDefined([])).toBe(true);
-    });
-
-    it('should return false for a date value', () => {
-      expect(jsonUtils.isDefined(new Date())).toBe(true);
-    });
-
-    it('should return false for an error object', () => {
-      expect(jsonUtils.isDefined(new Error('Test'))).toBe(true);
-    });
-
-    it('should return false for a number value', () => {
-      expect(jsonUtils.isDefined(5)).toBe(true);
-    });
-
-    it('should return false for an Object value', () => {
-      expect(jsonUtils.isDefined({})).toBe(true);
-    });
-
-    it('should return true for a string value', () => {
-      expect(jsonUtils.isDefined('test')).toBe(true);
-    });
-
-    it('should return false for a Regex value', () => {
-      expect(jsonUtils.isDefined(new RegExp('test', 'g'))).toBe(true);
-    });
-
-    it('should return true for a null value', () => {
-      expect(jsonUtils.isDefined(null)).toBe(true);
-    });
-
-    it('should return true for an undefined value', () => {
-      expect(jsonUtils.isDefined(undefined)).toBe(false);
-    });
-  });
-
-  describe('isDefinedAndNotNull() method', () => {
-    it('should return false for a boolean value', () => {
-      expect(jsonUtils.isDefinedAndNotNull(true)).toBe(true);
-    });
-
-    it('should return false for an array value', () => {
-      expect(jsonUtils.isDefinedAndNotNull([])).toBe(true);
-    });
-
-    it('should return false for a date value', () => {
-      expect(jsonUtils.isDefinedAndNotNull(new Date())).toBe(true);
-    });
-
-    it('should return false for an error object', () => {
-      expect(jsonUtils.isDefinedAndNotNull(new Error('Test'))).toBe(true);
-    });
-
-    it('should return false for a number value', () => {
-      expect(jsonUtils.isDefinedAndNotNull(5)).toBe(true);
-    });
-
-    it('should return false for an Object value', () => {
-      expect(jsonUtils.isDefinedAndNotNull({})).toBe(true);
-    });
-
-    it('should return true for a string value', () => {
-      expect(jsonUtils.isDefinedAndNotNull('test')).toBe(true);
-    });
-
-    it('should return false for a Regex value', () => {
-      expect(jsonUtils.isDefinedAndNotNull(new RegExp('test', 'g'))).toBe(true);
+  describe('isTrue() method', () => {
+    it('should return false for an undefined value', () => {
+      expect(jsonUtils.isTrue(undefined)).toBe(false);
     });
 
     it('should return false for a null value', () => {
-      expect(jsonUtils.isDefinedAndNotNull(null)).toBe(false);
+      expect(jsonUtils.isTrue(null)).toBe(false);
     });
 
-    it('should return true for an undefined value', () => {
-      expect(jsonUtils.isDefinedAndNotNull(undefined)).toBe(false);
+    it('should return true for a false (boolean) field', () => {
+      expect(jsonUtils.isTrue(false)).toBe(false);
+    });
+
+    it('should return false for a true (boolean) field', () => {
+      expect(jsonUtils.isTrue(true)).toBe(true);
+    });
+
+    it('should return false for an array field', () => {
+      expect(jsonUtils.isTrue([])).toBe(false);
+    });
+
+    it('should return false for an date field', () => {
+      expect(jsonUtils.isTrue(new Date())).toBe(false);
+    });
+
+    it('should return false for an error object', () => {
+      expect(jsonUtils.isTrue(new Error('Test'))).toBe(false);
+    });
+
+    it('should return false for an number field', () => {
+      expect(jsonUtils.isTrue(5)).toBe(false);
+    });
+
+    it('should return false for an Object field', () => {
+      expect(jsonUtils.isTrue({})).toBe(false);
+    });
+
+    it('should return false for an string field', () => {
+      expect(jsonUtils.isTrue('test')).toBe(false);
+    });
+
+    it('should return false for an Regex field', () => {
+      expect(jsonUtils.isTrue(new RegExp('test', 'g'))).toBe(false);
     });
   });
 
