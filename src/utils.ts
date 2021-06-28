@@ -2,7 +2,8 @@ const deepEqual = require('deep-equal');
 const clonedeep = require('lodash.clonedeep');
 
 export function isArray(value: any): value is Array<any> {
-  return ((value !== null) && ((value !== undefined))) && (typeof value === 'object') && (value.constructor === Array);
+  return ((value !== null) && ((value !== undefined))) && (typeof value === 'object')
+    && (value.constructor === Array);
 }
 
 export function isBoolean(value: any): value is boolean {
@@ -21,10 +22,6 @@ export function isDefinedAndNotNull(value: any): boolean {
   return (value !== undefined) && (value !== null);
 }
 
-export function isEmpty(document: any): boolean {
-  return (!document) || (Object.keys(document).length === 0 && document.constructor === Object);
-}
-
 export function isError(value: any): value is Error {
   return ((value !== null) && ((value !== undefined))) && (value instanceof Error) && (typeof value.message !== 'undefined');
 }
@@ -38,8 +35,13 @@ export function isNumber(value: any): value is number {
   return ((value !== null) && ((value !== undefined))) && (typeof value === 'number') && isFinite(value);
 }
 
-export function isObject(value: any): value is Object {
-  return ((value !== null) && ((value !== undefined))) && (typeof value === 'object') && (value.constructor === Object);
+export function isObject(value: any, constructor = Object): value is Object {
+  return ((value !== null) && ((value !== undefined))) && (typeof value === 'object')
+    && (value.constructor === constructor);
+}
+
+export function isEmpty(document: any): boolean {
+  return (!document) || (isObject(document) && (Object.keys(document).length === 0));
 }
 
 export function isRegExp(value: any): value is RegExp {
