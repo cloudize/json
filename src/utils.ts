@@ -1,15 +1,15 @@
 const deepEqual = require('deep-equal');
 const clonedeep = require('lodash.clonedeep');
 
-export function isArray(value: any): boolean {
+export function isArray(value: any): value is Array<any> {
   return ((value !== null) && ((value !== undefined))) && (typeof value === 'object') && (value.constructor === Array);
 }
 
-export function isBoolean(value: any): boolean {
+export function isBoolean(value: any): value is boolean {
   return ((value !== null) && ((value !== undefined))) && (typeof value === 'boolean');
 }
 
-export function isDate(value: any): boolean {
+export function isDate(value: any): value is Date {
   return ((value !== null) && ((value !== undefined))) && (value instanceof Date);
 }
 
@@ -25,7 +25,7 @@ export function isEmpty(document: any): boolean {
   return (!document) || (Object.keys(document).length === 0 && document.constructor === Object);
 }
 
-export function isError(value: any): boolean {
+export function isError(value: any): value is Error {
   return ((value !== null) && ((value !== undefined))) && (value instanceof Error) && (typeof value.message !== 'undefined');
 }
 
@@ -33,20 +33,20 @@ export function isFalse(value: any): boolean {
   return isBoolean(value) && (value === false);
 }
 
-export function isNumber(value: any): boolean {
+export function isNumber(value: any): value is number {
   // eslint-disable-next-line no-restricted-globals
   return ((value !== null) && ((value !== undefined))) && (typeof value === 'number') && isFinite(value);
 }
 
-export function isObject(value: any): boolean {
+export function isObject(value: any): value is Object {
   return ((value !== null) && ((value !== undefined))) && (typeof value === 'object') && (value.constructor === Object);
 }
 
-export function isRegExp(value: any): boolean {
+export function isRegExp(value: any): value is RegExp {
   return ((value !== null) && ((value !== undefined))) && (typeof value === 'object') && (value.constructor === RegExp);
 }
 
-export function isString(value: any): boolean {
+export function isString(value: any): value is string {
   return ((value !== null) && ((value !== undefined))) && ((typeof value === 'string') || (value instanceof String));
 }
 
@@ -115,7 +115,7 @@ export function redactUndefinedValues(document: any) {
     }
   } else if (isObject(document)) {
     // eslint-disable-next-line no-restricted-syntax
-    for (const key in (document as object)) {
+    for (const key in document) {
       if (Object.prototype.hasOwnProperty.call(document, key)) {
         if (isDefined(document[key])) {
           redactUndefinedValues(document[key]);
