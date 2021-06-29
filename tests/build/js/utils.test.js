@@ -814,8 +814,23 @@ describe('The JSON Utils', () => {
       expect(result).toBe(true);
     });
 
+    it('should return true for a Date object', () => {
+      const result = jsonUtils.isObject(new Date());
+      expect(result).toBe(true);
+    });
+
     it('should return false for an undefined document', () => {
       const result = jsonUtils.isObject(undefined);
+      expect(result).toBe(false);
+    });
+
+    it('should return false for a string', () => {
+      const result = jsonUtils.isObject('Bob');
+      expect(result).toBe(false);
+    });
+
+    it('should return false for a number', () => {
+      const result = jsonUtils.isObject(7);
       expect(result).toBe(false);
     });
 

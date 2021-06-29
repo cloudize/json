@@ -35,9 +35,9 @@ export function isNumber(value: any): value is number {
   return ((value !== null) && ((value !== undefined))) && (typeof value === 'number') && isFinite(value);
 }
 
-export function isObject(value: any, constructor = Object): value is Object {
+export function isObject(value: any): value is Object {
   return ((value !== null) && ((value !== undefined))) && (typeof value === 'object')
-    && (value.constructor === constructor);
+    && ((value.constructor === Object) || ((value instanceof Object) && (!isArray(value))));
 }
 
 export function isEmpty(document: any): boolean {
