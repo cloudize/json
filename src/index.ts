@@ -19,5 +19,6 @@ export {
   isTrue,
   isUndefined,
   isUndefinedOrNull,
+  redactUndefinedValues,
   stringify,
 } from './utils';
