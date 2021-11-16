@@ -12,6 +12,7 @@ import {
   isEmpty,
   isError,
   isFalse,
+  isInteger,
   isNumber,
   isObject,
   isRegExp,
@@ -788,6 +789,44 @@ describe('The JSON Utils', () => {
 
     it('should return false for an Regex field', () => {
       expect(isFalse(new RegExp('test', 'g'))).toBe(false);
+    });
+  });
+
+  describe('isInteger() method', () => {
+    it('should return false for a boolean field', () => {
+      expect(isInteger(true)).toBe(false);
+    });
+
+    it('should return false for an array field', () => {
+      expect(isInteger([])).toBe(false);
+    });
+
+    it('should return false for an date field', () => {
+      expect(isInteger(new Date())).toBe(false);
+    });
+
+    it('should return false for an error object', () => {
+      expect(isInteger(new Error('Test'))).toBe(false);
+    });
+
+    it('should return true for an integer field', () => {
+      expect(isInteger(5)).toBe(true);
+    });
+
+    it('should return false for an number field', () => {
+      expect(isInteger(5.2)).toBe(false);
+    });
+
+    it('should return false for an Object field', () => {
+      expect(isInteger({})).toBe(false);
+    });
+
+    it('should return false for an string field', () => {
+      expect(isInteger('test')).toBe(false);
+    });
+
+    it('should return false for an Regex field', () => {
+      expect(isInteger(new RegExp('test', 'g'))).toBe(false);
     });
   });
 

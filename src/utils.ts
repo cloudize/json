@@ -35,6 +35,10 @@ export function isNumber(value: any): value is number {
   return ((value !== null) && ((value !== undefined))) && (typeof value === 'number') && isFinite(value);
 }
 
+export function isInteger(value: any): value is number {
+  return isNumber(value) && (value % 1 === 0);
+}
+
 export function isObject(value: any): value is Object {
   return ((value !== null) && ((value !== undefined))) && (typeof value === 'object')
     && ((value.constructor === Object) || ((value instanceof Object) && (!isArray(value))));

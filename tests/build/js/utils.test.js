@@ -769,6 +769,44 @@ describe('The JSON Utils', () => {
     });
   });
 
+  describe('isInteger() method', () => {
+    it('should return false for a boolean field', () => {
+      expect(jsonUtils.isInteger(true)).toBe(false);
+    });
+
+    it('should return false for an array field', () => {
+      expect(jsonUtils.isInteger([])).toBe(false);
+    });
+
+    it('should return false for an date field', () => {
+      expect(jsonUtils.isInteger(new Date())).toBe(false);
+    });
+
+    it('should return false for an error object', () => {
+      expect(jsonUtils.isInteger(new Error('Test'))).toBe(false);
+    });
+
+    it('should return true for an integer field', () => {
+      expect(jsonUtils.isInteger(5)).toBe(true);
+    });
+
+    it('should return false for an number field', () => {
+      expect(jsonUtils.isInteger(5.2)).toBe(false);
+    });
+
+    it('should return false for an Object field', () => {
+      expect(jsonUtils.isInteger({})).toBe(false);
+    });
+
+    it('should return false for an string field', () => {
+      expect(jsonUtils.isInteger('test')).toBe(false);
+    });
+
+    it('should return false for an Regex field', () => {
+      expect(jsonUtils.isInteger(new RegExp('test', 'g'))).toBe(false);
+    });
+  });
+
   describe('isNumber() method', () => {
     it('should return false for a boolean field', () => {
       expect(jsonUtils.isNumber(true)).toBe(false);

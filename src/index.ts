@@ -12,6 +12,7 @@ export {
   isEmpty,
   isError,
   isFalse,
+  isInteger,
   isNumber,
   isObject,
   isRegExp,
