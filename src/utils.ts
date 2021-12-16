@@ -148,8 +148,12 @@ export function clone(value: any, shouldRedactUndefinedValues: boolean = true): 
   return undefined;
 }
 
-export function stringify(obj: any, indent: number = 4, linePrefix: string = '',
-  quoteFieldNames: boolean = true): string {
+export function stringify(
+  obj: any,
+  indent: number = 4,
+  linePrefix: string = '',
+  quoteFieldNames: boolean = true,
+): string {
   const lines = JSON.stringify(obj, null, indent).split('\n');
 
   if (linePrefix !== '') {

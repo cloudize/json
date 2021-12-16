@@ -563,6 +563,7 @@ describe('The JSON Utils', () => {
     });
 
     it('should return false for an Regex field', () => {
+      // eslint-disable-next-line prefer-regex-literals
       expect(isBoolean(new RegExp('test', 'g'))).toBe(false);
     });
   });
@@ -597,6 +598,7 @@ describe('The JSON Utils', () => {
     });
 
     it('should return false for an Regex field', () => {
+      // eslint-disable-next-line prefer-regex-literals
       expect(isDate(new RegExp('test', 'g'))).toBe(false);
     });
   });
@@ -631,6 +633,7 @@ describe('The JSON Utils', () => {
     });
 
     it('should return true for a Regex value', () => {
+      // eslint-disable-next-line prefer-regex-literals
       expect(isDefined(new RegExp('test', 'g'))).toBe(true);
     });
 
@@ -673,6 +676,7 @@ describe('The JSON Utils', () => {
     });
 
     it('should return true for a Regex value', () => {
+      // eslint-disable-next-line prefer-regex-literals
       expect(isDefinedAndNotNull(new RegExp('test', 'g'))).toBe(true);
     });
 
@@ -742,6 +746,7 @@ describe('The JSON Utils', () => {
     });
 
     it('should return false for an Regex field', () => {
+      // eslint-disable-next-line prefer-regex-literals
       expect(isError(new RegExp('test', 'g'))).toBe(false);
     });
   });
@@ -788,6 +793,7 @@ describe('The JSON Utils', () => {
     });
 
     it('should return false for an Regex field', () => {
+      // eslint-disable-next-line prefer-regex-literals
       expect(isFalse(new RegExp('test', 'g'))).toBe(false);
     });
   });
@@ -826,6 +832,7 @@ describe('The JSON Utils', () => {
     });
 
     it('should return false for an Regex field', () => {
+      // eslint-disable-next-line prefer-regex-literals
       expect(isInteger(new RegExp('test', 'g'))).toBe(false);
     });
   });
@@ -860,6 +867,7 @@ describe('The JSON Utils', () => {
     });
 
     it('should return false for an Regex field', () => {
+      // eslint-disable-next-line prefer-regex-literals
       expect(isNumber(new RegExp('test', 'g'))).toBe(false);
     });
   });
@@ -931,6 +939,7 @@ describe('The JSON Utils', () => {
     });
 
     it('should return true for an Regex field', () => {
+      // eslint-disable-next-line prefer-regex-literals
       expect(isRegExp(new RegExp('test', 'g'))).toBe(true);
     });
   });
@@ -965,6 +974,7 @@ describe('The JSON Utils', () => {
     });
 
     it('should return false for an Regex field', () => {
+      // eslint-disable-next-line prefer-regex-literals
       expect(isString(new RegExp('test', 'g'))).toBe(false);
     });
   });
@@ -1011,6 +1021,7 @@ describe('The JSON Utils', () => {
     });
 
     it('should return false for an Regex field', () => {
+      // eslint-disable-next-line prefer-regex-literals
       expect(isTrue(new RegExp('test', 'g'))).toBe(false);
     });
   });
@@ -1045,6 +1056,7 @@ describe('The JSON Utils', () => {
     });
 
     it('should return false for a Regex value', () => {
+      // eslint-disable-next-line prefer-regex-literals
       expect(isUndefined(new RegExp('test', 'g'))).toBe(false);
     });
 
@@ -1087,6 +1099,7 @@ describe('The JSON Utils', () => {
     });
 
     it('should return false for a Regex value', () => {
+      // eslint-disable-next-line prefer-regex-literals
       expect(isUndefinedOrNull(new RegExp('test', 'g'))).toBe(false);
     });
 
