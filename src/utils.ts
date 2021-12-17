@@ -1,19 +1,6 @@
 const deepEqual = require('deep-equal');
 const clonedeep = require('lodash.clonedeep');
 
-export function isArray(value: any): value is Array<any> {
-  return ((value !== null) && ((value !== undefined))) && (typeof value === 'object')
-    && (value.constructor === Array);
-}
-
-export function isBoolean(value: any): value is boolean {
-  return ((value !== null) && ((value !== undefined))) && (typeof value === 'boolean');
-}
-
-export function isDate(value: any): value is Date {
-  return ((value !== null) && ((value !== undefined))) && (value instanceof Date);
-}
-
 export function isDefined(value: any): boolean {
   return (value !== undefined);
 }
@@ -22,8 +9,29 @@ export function isDefinedAndNotNull(value: any): boolean {
   return (value !== undefined) && (value !== null);
 }
 
+export function isUndefined(value: any): boolean {
+  return (value === undefined);
+}
+
+export function isUndefinedOrNull(value: any): boolean {
+  return (value === undefined) || (value === null);
+}
+
+export function isArray(value: any): value is Array<any> {
+  return isDefinedAndNotNull(value) && (typeof value === 'object')
+    && (value.constructor === Array);
+}
+
+export function isBoolean(value: any): value is boolean {
+  return isDefinedAndNotNull(value) && (typeof value === 'boolean');
+}
+
+export function isDate(value: any): value is Date {
+  return isDefinedAndNotNull(value) && (value instanceof Date);
+}
+
 export function isError(value: any): value is Error {
-  return ((value !== null) && ((value !== undefined))) && (value instanceof Error) && (typeof value.message !== 'undefined');
+  return isDefinedAndNotNull(value) && (value instanceof Error) && (typeof value.message !== 'undefined');
 }
 
 export function isFalse(value: any): boolean {
@@ -32,7 +40,7 @@ export function isFalse(value: any): boolean {
 
 export function isNumber(value: any): value is number {
   // eslint-disable-next-line no-restricted-globals
-  return ((value !== null) && ((value !== undefined))) && (typeof value === 'number') && isFinite(value);
+  return isDefinedAndNotNull(value) && (typeof value === 'number') && isFinite(value);
 }
 
 export function isInteger(value: any): value is number {
@@ -40,32 +48,24 @@ export function isInteger(value: any): value is number {
 }
 
 export function isObject(value: any): value is Object {
-  return ((value !== null) && ((value !== undefined))) && (typeof value === 'object')
+  return isDefinedAndNotNull(value) && (typeof value === 'object')
     && ((value.constructor === Object) || ((value instanceof Object) && (!isArray(value))));
 }
 
 export function isEmpty(document: any): boolean {
-  return (!document) || (isObject(document) && (Object.keys(document).length === 0));
+  return (isUndefined(document)) || (isObject(document) && (Object.keys(document).length === 0));
 }
 
 export function isRegExp(value: any): value is RegExp {
-  return ((value !== null) && ((value !== undefined))) && (typeof value === 'object') && (value.constructor === RegExp);
+  return isDefinedAndNotNull(value) && (typeof value === 'object') && (value.constructor === RegExp);
 }
 
 export function isString(value: any): value is string {
-  return ((value !== null) && ((value !== undefined))) && ((typeof value === 'string') || (value instanceof String));
+  return isDefinedAndNotNull(value) && ((typeof value === 'string') || (value instanceof String));
 }
 
 export function isTrue(value: any): boolean {
   return isBoolean(value) && (value === true);
-}
-
-export function isUndefined(value: any): boolean {
-  return (value === undefined);
-}
-
-export function isUndefinedOrNull(value: any): boolean {
-  return (value === undefined) || (value === null);
 }
 
 export function hasProperty(obj: any, property: string): boolean {
