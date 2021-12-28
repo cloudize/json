@@ -5,6 +5,12 @@ import {
   extractAndRedact,
   hasProperty,
   isArray,
+  isArrayOfBooleans,
+  isArrayOfDates,
+  isArrayOfIntegers,
+  isArrayOfNumbers,
+  isArrayOfObjects,
+  isArrayOfStrings,
   isBoolean,
   isDate,
   isDefined,
@@ -20,6 +26,7 @@ import {
   isTrue,
   isUndefined,
   isUndefinedOrNull,
+  redactUndefinedValues,
   stringify,
 } from '../../src';
 
@@ -533,6 +540,198 @@ describe('The JSON Utils', () => {
     });
   });
 
+  describe('isArrayOfBooleans() method', () => {
+    it('should return true for an empty array', () => {
+      const result = isArrayOfBooleans([]);
+      expect(result).toBe(true);
+    });
+
+    it('should return true for an array containing booleans', () => {
+      const result = isArrayOfBooleans([true, false]);
+      expect(result).toBe(true);
+    });
+
+    it('should return true for an array containing mixed items', () => {
+      const result = isArrayOfBooleans([true, false, 1]);
+      expect(result).toBe(false);
+    });
+
+    it('should return false for an undefined document', () => {
+      const result = isArrayOfBooleans(undefined);
+      expect(result).toBe(false);
+    });
+
+    it('should return false for an empty object', () => {
+      const result = isArrayOfBooleans({});
+      expect(result).toBe(false);
+    });
+
+    it('should return false for a document with a string element', () => {
+      const result = isArrayOfBooleans({ name: 'value' });
+      expect(result).toBe(false);
+    });
+  });
+
+  describe('isArrayOfDates() method', () => {
+    it('should return true for an empty array', () => {
+      const result = isArrayOfDates([]);
+      expect(result).toBe(true);
+    });
+
+    it('should return true for an array containing dates', () => {
+      const result = isArrayOfDates([new Date(), new Date('2019-12-31T00:00:00.000Z')]);
+      expect(result).toBe(true);
+    });
+
+    it('should return true for an array containing mixed items', () => {
+      const result = isArrayOfDates([new Date(), new Date('2019-12-31T00:00:00.000Z'), false, 1]);
+      expect(result).toBe(false);
+    });
+
+    it('should return false for an undefined document', () => {
+      const result = isArrayOfDates(undefined);
+      expect(result).toBe(false);
+    });
+
+    it('should return false for an empty object', () => {
+      const result = isArrayOfDates({});
+      expect(result).toBe(false);
+    });
+
+    it('should return false for a document with a string element', () => {
+      const result = isArrayOfDates({ name: 'value' });
+      expect(result).toBe(false);
+    });
+  });
+
+  describe('isArrayOfIntegers() method', () => {
+    it('should return true for an empty array', () => {
+      const result = isArrayOfIntegers([]);
+      expect(result).toBe(true);
+    });
+
+    it('should return true for an array containing integers', () => {
+      const result = isArrayOfIntegers([1, 2]);
+      expect(result).toBe(true);
+    });
+
+    it('should return true for an array containing mixed items', () => {
+      const result = isArrayOfIntegers([1, 2, 4429829, 'test']);
+      expect(result).toBe(false);
+    });
+
+    it('should return false for an undefined document', () => {
+      const result = isArrayOfIntegers(undefined);
+      expect(result).toBe(false);
+    });
+
+    it('should return false for an empty object', () => {
+      const result = isArrayOfIntegers({});
+      expect(result).toBe(false);
+    });
+
+    it('should return false for a document with a string element', () => {
+      const result = isArrayOfIntegers({ name: 'value' });
+      expect(result).toBe(false);
+    });
+  });
+
+  describe('isArrayOfNumbers() method', () => {
+    it('should return true for an empty array', () => {
+      const result = isArrayOfNumbers([]);
+      expect(result).toBe(true);
+    });
+
+    it('should return true for an array containing numbers', () => {
+      const result = isArrayOfNumbers([12.28181, -91872.2911281873]);
+      expect(result).toBe(true);
+    });
+
+    it('should return true for an array containing mixed items', () => {
+      const result = isArrayOfNumbers([0.809291828, false, 1]);
+      expect(result).toBe(false);
+    });
+
+    it('should return false for an undefined document', () => {
+      const result = isArrayOfNumbers(undefined);
+      expect(result).toBe(false);
+    });
+
+    it('should return false for an empty object', () => {
+      const result = isArrayOfNumbers({});
+      expect(result).toBe(false);
+    });
+
+    it('should return false for a document with a string element', () => {
+      const result = isArrayOfNumbers({ name: 'value' });
+      expect(result).toBe(false);
+    });
+  });
+
+  describe('isArrayOfStrings() method', () => {
+    it('should return true for an empty array', () => {
+      const result = isArrayOfStrings([]);
+      expect(result).toBe(true);
+    });
+
+    it('should return true for an array containing strings', () => {
+      const result = isArrayOfStrings(['test', 'value']);
+      expect(result).toBe(true);
+    });
+
+    it('should return true for an array containing mixed items', () => {
+      const result = isArrayOfStrings(['test', 'value', 1]);
+      expect(result).toBe(false);
+    });
+
+    it('should return false for an undefined document', () => {
+      const result = isArrayOfStrings(undefined);
+      expect(result).toBe(false);
+    });
+
+    it('should return false for an empty object', () => {
+      const result = isArrayOfStrings({});
+      expect(result).toBe(false);
+    });
+
+    it('should return false for a document with a string element', () => {
+      const result = isArrayOfStrings({ name: 'value' });
+      expect(result).toBe(false);
+    });
+  });
+
+  describe('isArrayOfObjects() method', () => {
+    it('should return true for an empty array', () => {
+      const result = isArrayOfObjects([]);
+      expect(result).toBe(true);
+    });
+
+    it('should return true for an array containing objects', () => {
+      const result = isArrayOfObjects([{}, new Date()]);
+      expect(result).toBe(true);
+    });
+
+    it('should return true for an array containing mixed items', () => {
+      const result = isArrayOfObjects([{}, false, 1]);
+      expect(result).toBe(false);
+    });
+
+    it('should return false for an undefined document', () => {
+      const result = isArrayOfObjects(undefined);
+      expect(result).toBe(false);
+    });
+
+    it('should return false for an empty object', () => {
+      const result = isArrayOfObjects({});
+      expect(result).toBe(false);
+    });
+
+    it('should return false for a document with a string element', () => {
+      const result = isArrayOfObjects({ name: 'value' });
+      expect(result).toBe(false);
+    });
+  });
+
   describe('isBoolean() method', () => {
     it('should return true for a boolean field', () => {
       expect(isBoolean(true)).toBe(true);
@@ -563,7 +762,7 @@ describe('The JSON Utils', () => {
     });
 
     it('should return false for an Regex field', () => {
-      expect(isBoolean(new RegExp('test', 'g'))).toBe(false);
+      expect(isBoolean(/test/g)).toBe(false);
     });
   });
 
@@ -597,7 +796,7 @@ describe('The JSON Utils', () => {
     });
 
     it('should return false for an Regex field', () => {
-      expect(isDate(new RegExp('test', 'g'))).toBe(false);
+      expect(isDate(/test/g)).toBe(false);
     });
   });
 
@@ -631,7 +830,7 @@ describe('The JSON Utils', () => {
     });
 
     it('should return true for a Regex value', () => {
-      expect(isDefined(new RegExp('test', 'g'))).toBe(true);
+      expect(isDefined(/test/g)).toBe(true);
     });
 
     it('should return true for a null value', () => {
@@ -673,7 +872,7 @@ describe('The JSON Utils', () => {
     });
 
     it('should return true for a Regex value', () => {
-      expect(isDefinedAndNotNull(new RegExp('test', 'g'))).toBe(true);
+      expect(isDefinedAndNotNull(/test/g)).toBe(true);
     });
 
     it('should return false for a null value', () => {
@@ -742,7 +941,7 @@ describe('The JSON Utils', () => {
     });
 
     it('should return false for an Regex field', () => {
-      expect(isError(new RegExp('test', 'g'))).toBe(false);
+      expect(isError(/test/g)).toBe(false);
     });
   });
 
@@ -788,7 +987,7 @@ describe('The JSON Utils', () => {
     });
 
     it('should return false for an Regex field', () => {
-      expect(isFalse(new RegExp('test', 'g'))).toBe(false);
+      expect(isFalse(/test/g)).toBe(false);
     });
   });
 
@@ -826,7 +1025,7 @@ describe('The JSON Utils', () => {
     });
 
     it('should return false for an Regex field', () => {
-      expect(isInteger(new RegExp('test', 'g'))).toBe(false);
+      expect(isInteger(/test/g)).toBe(false);
     });
   });
 
@@ -860,7 +1059,7 @@ describe('The JSON Utils', () => {
     });
 
     it('should return false for an Regex field', () => {
-      expect(isNumber(new RegExp('test', 'g'))).toBe(false);
+      expect(isNumber(/test/g)).toBe(false);
     });
   });
 
@@ -931,7 +1130,7 @@ describe('The JSON Utils', () => {
     });
 
     it('should return true for an Regex field', () => {
-      expect(isRegExp(new RegExp('test', 'g'))).toBe(true);
+      expect(isRegExp(/test/g)).toBe(true);
     });
   });
 
@@ -965,7 +1164,7 @@ describe('The JSON Utils', () => {
     });
 
     it('should return false for an Regex field', () => {
-      expect(isString(new RegExp('test', 'g'))).toBe(false);
+      expect(isString(/test/g)).toBe(false);
     });
   });
 
@@ -1011,7 +1210,7 @@ describe('The JSON Utils', () => {
     });
 
     it('should return false for an Regex field', () => {
-      expect(isTrue(new RegExp('test', 'g'))).toBe(false);
+      expect(isTrue(/test/g)).toBe(false);
     });
   });
 
@@ -1045,7 +1244,7 @@ describe('The JSON Utils', () => {
     });
 
     it('should return false for a Regex value', () => {
-      expect(isUndefined(new RegExp('test', 'g'))).toBe(false);
+      expect(isUndefined(/test/g)).toBe(false);
     });
 
     it('should return false for a null value', () => {
@@ -1087,7 +1286,7 @@ describe('The JSON Utils', () => {
     });
 
     it('should return false for a Regex value', () => {
-      expect(isUndefinedOrNull(new RegExp('test', 'g'))).toBe(false);
+      expect(isUndefinedOrNull(/test/g)).toBe(false);
     });
 
     it('should return true for a null value', () => {
@@ -1117,18 +1316,18 @@ describe('The JSON Utils', () => {
 
       const result = stringify(document);
       const expectedResult = '{\n'
-                + '    "name": "value",\n'
-                + '    "count": 1,\n'
-                + '    "valid": true,\n'
-                + '    "address": {\n'
-                + '        "line1": "line1 value",\n'
-                + '        "line2": "line2 value"\n'
-                + '    },\n'
-                + '    "options": [\n'
-                + '        "email",\n'
-                + '        "print"\n'
-                + '    ]\n'
-                + '}';
+          + '    "name": "value",\n'
+          + '    "count": 1,\n'
+          + '    "valid": true,\n'
+          + '    "address": {\n'
+          + '        "line1": "line1 value",\n'
+          + '        "line2": "line2 value"\n'
+          + '    },\n'
+          + '    "options": [\n'
+          + '        "email",\n'
+          + '        "print"\n'
+          + '    ]\n'
+          + '}';
 
       expect(result).toBe(expectedResult);
     });
@@ -1150,18 +1349,18 @@ describe('The JSON Utils', () => {
 
       const result = stringify(document, 4, '', false);
       const expectedResult = '{\n'
-                + '    name: "value",\n'
-                + '    count: 1,\n'
-                + '    valid: true,\n'
-                + '    address: {\n'
-                + '        line1: "line1 value",\n'
-                + '        line2: "line2 value"\n'
-                + '    },\n'
-                + '    options: [\n'
-                + '        "email",\n'
-                + '        "print"\n'
-                + '    ]\n'
-                + '}';
+          + '    name: "value",\n'
+          + '    count: 1,\n'
+          + '    valid: true,\n'
+          + '    address: {\n'
+          + '        line1: "line1 value",\n'
+          + '        line2: "line2 value"\n'
+          + '    },\n'
+          + '    options: [\n'
+          + '        "email",\n'
+          + '        "print"\n'
+          + '    ]\n'
+          + '}';
 
       expect(result).toBe(expectedResult);
     });
@@ -1183,18 +1382,18 @@ describe('The JSON Utils', () => {
 
       const result = stringify(document, 2);
       const expectedResult = '{\n'
-                + '  "name": "value",\n'
-                + '  "count": 1,\n'
-                + '  "valid": true,\n'
-                + '  "address": {\n'
-                + '    "line1": "line1 value",\n'
-                + '    "line2": "line2 value"\n'
-                + '  },\n'
-                + '  "options": [\n'
-                + '    "email",\n'
-                + '    "print"\n'
-                + '  ]\n'
-                + '}';
+          + '  "name": "value",\n'
+          + '  "count": 1,\n'
+          + '  "valid": true,\n'
+          + '  "address": {\n'
+          + '    "line1": "line1 value",\n'
+          + '    "line2": "line2 value"\n'
+          + '  },\n'
+          + '  "options": [\n'
+          + '    "email",\n'
+          + '    "print"\n'
+          + '  ]\n'
+          + '}';
 
       expect(result).toBe(expectedResult);
     });
@@ -1216,20 +1415,52 @@ describe('The JSON Utils', () => {
 
       const result = stringify(document, 4, '  ', false);
       const expectedResult = '{\n'
-                + '      name: "value",\n'
-                + '      count: 1,\n'
-                + '      valid: true,\n'
-                + '      address: {\n'
-                + '          line1: "line1 value",\n'
-                + '          line2: "https://line2.value"\n'
-                + '      },\n'
-                + '      options: [\n'
-                + '          "email",\n'
-                + '          "print"\n'
-                + '      ]\n'
-                + '  }';
+          + '      name: "value",\n'
+          + '      count: 1,\n'
+          + '      valid: true,\n'
+          + '      address: {\n'
+          + '          line1: "line1 value",\n'
+          + '          line2: "https://line2.value"\n'
+          + '      },\n'
+          + '      options: [\n'
+          + '          "email",\n'
+          + '          "print"\n'
+          + '      ]\n'
+          + '  }';
 
       expect(result).toBe(expectedResult);
+    });
+  });
+
+  describe('redactUndefinedValues() method', () => {
+    it('should return a correctly redact an object containing undefined values', () => {
+      const document: any = {
+        name: 'value',
+        count: 1,
+        valid: undefined,
+        address: {
+          line1: 'line1 value',
+          line2: undefined,
+        },
+        options: [
+          'email',
+          undefined,
+        ],
+      };
+
+      const expectedResult = {
+        name: 'value',
+        count: 1,
+        address: {
+          line1: 'line1 value',
+        },
+        options: [
+          'email',
+        ],
+      };
+
+      redactUndefinedValues(document);
+      expect(document).toEqual(expectedResult);
     });
   });
 });

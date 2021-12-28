@@ -64,6 +64,72 @@ export function isString(value: any): value is string {
   return isDefinedAndNotNull(value) && ((typeof value === 'string') || (value instanceof String));
 }
 
+export function isArrayOfBooleans(values: any): values is boolean[] {
+  if (isArray(values)) {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const value of values) if (!isBoolean(value)) return false;
+
+    return true;
+  }
+
+  return false;
+}
+
+export function isArrayOfDates(values: any): values is Date[] {
+  if (isArray(values)) {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const value of values) if (!isDate(value)) return false;
+
+    return true;
+  }
+
+  return false;
+}
+
+export function isArrayOfIntegers(values: any): values is number[] {
+  if (isArray(values)) {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const value of values) if (!isInteger(value)) return false;
+
+    return true;
+  }
+
+  return false;
+}
+
+export function isArrayOfNumbers(values: any): values is number[] {
+  if (isArray(values)) {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const value of values) if (!isNumber(value)) return false;
+
+    return true;
+  }
+
+  return false;
+}
+
+export function isArrayOfStrings(values: any): values is string[] {
+  if (isArray(values)) {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const value of values) if (!isString(value)) return false;
+
+    return true;
+  }
+
+  return false;
+}
+
+export function isArrayOfObjects(values: any): values is object[] {
+  if (isArray(values)) {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const value of values) if (!isObject(value)) return false;
+
+    return true;
+  }
+
+  return false;
+}
+
 export function isTrue(value: any): boolean {
   return isBoolean(value) && (value === true);
 }
