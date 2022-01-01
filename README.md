@@ -1,6 +1,9 @@
 API Games JSON Utilities
 ========================
 
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/0d94da93f1334ec38ab44ecf10b747d3)](https://www.codacy.com/gh/apigames-public/json/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=apigames-public/json&amp;utm_campaign=Badge_Grade)
+![](https://img.shields.io/badge/license-MIT-blue.svg)
+
 JSON Utilities Library for the API Games Platform and SDKs.
 
 * * *
