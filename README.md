@@ -1,5 +1,4 @@
-API Games JSON Utilities
-========================
+# API Games JSON Utilities
 
 ![](https://img.shields.io/badge/build-passing-brightgreen)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/6aba1020060a467899666e3f1884d37f)](https://www.codacy.com/gh/apigames-public/json/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=apigames-public/json&amp;utm_campaign=Badge_Grade)
@@ -13,7 +12,7 @@ JSON Utilities Library for the API Games Platform and SDKs.
 
 This package includes a set of utility functions that provide efficient and consistent JSON object manipulation capabilities.
 
-### List of features
+## List of features
 
 *   Provides the ability to append a JSON object with another sub document
 *   Provides the ability to compare JSON objects
@@ -21,16 +20,16 @@ This package includes a set of utility functions that provide efficient and cons
 *   Provides the ability to extract and redact elements from a JSON obejct
 *   Provides the ability to evaluate JSON element types
 
-### Download & Installation
+## Download & Installation
 
 ```shell 
 $ npm i @apigames/json 
 ```
 
-### Authors or Acknowledgments
+## Authors or Acknowledgments
 
 *   API Games Limited
 
-### License
+## License
 
 This project is licensed under the MIT License
