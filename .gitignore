@@ -60,7 +60,8 @@ typings/
 # NPM Tokens
 .npmrc
 
-# Webstorm config, build and detailed coverage files
+# Webstorm config, build and code coverage files
 .idea
-coverage/lcov-report
+publishCodeCoverage.sh
+coverage
 lib/
