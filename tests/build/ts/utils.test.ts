@@ -1316,18 +1316,18 @@ describe('The JSON Utils', () => {
 
       const result = stringify(document);
       const expectedResult = '{\n'
-                + '    "name": "value",\n'
-                + '    "count": 1,\n'
-                + '    "valid": true,\n'
-                + '    "address": {\n'
-                + '        "line1": "line1 value",\n'
-                + '        "line2": "line2 value"\n'
-                + '    },\n'
-                + '    "options": [\n'
-                + '        "email",\n'
-                + '        "print"\n'
-                + '    ]\n'
-                + '}';
+          + '    "name": "value",\n'
+          + '    "count": 1,\n'
+          + '    "valid": true,\n'
+          + '    "address": {\n'
+          + '        "line1": "line1 value",\n'
+          + '        "line2": "line2 value"\n'
+          + '    },\n'
+          + '    "options": [\n'
+          + '        "email",\n'
+          + '        "print"\n'
+          + '    ]\n'
+          + '}';
 
       expect(result).toBe(expectedResult);
     });
@@ -1349,18 +1349,18 @@ describe('The JSON Utils', () => {
 
       const result = stringify(document, 4, '', false);
       const expectedResult = '{\n'
-                + '    name: "value",\n'
-                + '    count: 1,\n'
-                + '    valid: true,\n'
-                + '    address: {\n'
-                + '        line1: "line1 value",\n'
-                + '        line2: "line2 value"\n'
-                + '    },\n'
-                + '    options: [\n'
-                + '        "email",\n'
-                + '        "print"\n'
-                + '    ]\n'
-                + '}';
+          + '    name: "value",\n'
+          + '    count: 1,\n'
+          + '    valid: true,\n'
+          + '    address: {\n'
+          + '        line1: "line1 value",\n'
+          + '        line2: "line2 value"\n'
+          + '    },\n'
+          + '    options: [\n'
+          + '        "email",\n'
+          + '        "print"\n'
+          + '    ]\n'
+          + '}';
 
       expect(result).toBe(expectedResult);
     });
@@ -1382,18 +1382,18 @@ describe('The JSON Utils', () => {
 
       const result = stringify(document, 2);
       const expectedResult = '{\n'
-                + '  "name": "value",\n'
-                + '  "count": 1,\n'
-                + '  "valid": true,\n'
-                + '  "address": {\n'
-                + '    "line1": "line1 value",\n'
-                + '    "line2": "line2 value"\n'
-                + '  },\n'
-                + '  "options": [\n'
-                + '    "email",\n'
-                + '    "print"\n'
-                + '  ]\n'
-                + '}';
+          + '  "name": "value",\n'
+          + '  "count": 1,\n'
+          + '  "valid": true,\n'
+          + '  "address": {\n'
+          + '    "line1": "line1 value",\n'
+          + '    "line2": "line2 value"\n'
+          + '  },\n'
+          + '  "options": [\n'
+          + '    "email",\n'
+          + '    "print"\n'
+          + '  ]\n'
+          + '}';
 
       expect(result).toBe(expectedResult);
     });
@@ -1415,18 +1415,18 @@ describe('The JSON Utils', () => {
 
       const result = stringify(document, 4, '  ', false);
       const expectedResult = '{\n'
-                + '      name: "value",\n'
-                + '      count: 1,\n'
-                + '      valid: true,\n'
-                + '      address: {\n'
-                + '          line1: "line1 value",\n'
-                + '          line2: "https://line2.value"\n'
-                + '      },\n'
-                + '      options: [\n'
-                + '          "email",\n'
-                + '          "print"\n'
-                + '      ]\n'
-                + '  }';
+          + '      name: "value",\n'
+          + '      count: 1,\n'
+          + '      valid: true,\n'
+          + '      address: {\n'
+          + '          line1: "line1 value",\n'
+          + '          line2: "https://line2.value"\n'
+          + '      },\n'
+          + '      options: [\n'
+          + '          "email",\n'
+          + '          "print"\n'
+          + '      ]\n'
+          + '  }';
 
       expect(result).toBe(expectedResult);
     });
