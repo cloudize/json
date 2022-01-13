@@ -3,7 +3,7 @@
   "author": "API Games Limited",
   "description": "API Games JSON Utilities",
   "license": "MIT",
-  "version": "22.1.0-dev.7",
+  "version": "22.1.0-dev.8",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
