@@ -1,5 +1,5 @@
 {
-  "name": "@apigames/json",
+  "name": "@cloudize/json",
   "author": {
     "name" : "API Games Limited",
     "email" : "hello@api.games",
@@ -11,7 +11,7 @@
       "email" : "erich.kuba@api.games"
     }
   ],
-  "description": "API Games JSON Utilities",
+  "description": "Cloudize JSON Utilities",
   "license": "MIT",
   "version": "22.1.9",
   "main": "lib/index.js",
@@ -55,10 +55,10 @@
   "eslintConfig": {},
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/apigames-core/json.git"
+    "url": "git+https://github.com/cloudize/json.git"
   },
   "bugs": {
-    "url": "https://github.com/apigames-core/json/issues"
+    "url": "https://github.com/cloudize/json/issues"
   },
-  "homepage": "https://github.com/apigames-core/json#readme"
+  "homepage": "https://github.com/cloudize/json#readme"
 }
