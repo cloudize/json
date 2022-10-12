@@ -1,19 +1,19 @@
 {
   "name": "@cloudize/json",
   "author": {
-    "name" : "API Games Limited",
-    "email" : "hello@apigames.io",
-    "url" : "https://apigames.io"
+    "name" : "Cloudize Limited",
+    "email" : "hello@cloudize.net",
+    "url" : "https://cloudize.net"
   },
   "contributors": [
     {
       "name" : "Erich Kuba",
-      "email" : "erich.kuba@apigames.io"
+      "email" : "erich.kuba@cloudize.net"
     }
   ],
   "description": "Cloudize JSON Utilities",
   "license": "MIT",
-  "version": "22.2.0",
+  "version": "22.2.2",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
@@ -39,10 +39,10 @@
   },
   "devDependencies": {
     "@types/jest": "28.1.8",
-    "@types/node": "16.11.59",
-    "@typescript-eslint/eslint-plugin": "5.37.0",
-    "@typescript-eslint/parser": "5.37.0",
-    "eslint": "8.22.0",
+    "@types/node": "16.11.62",
+    "@typescript-eslint/eslint-plugin": "5.38.1",
+    "@typescript-eslint/parser": "5.38.1",
+    "eslint": "8.24.0",
     "eslint-config-airbnb": "19.0.4",
     "eslint-plugin-import": "2.26.0",
     "eslint-plugin-jsx-a11y": "6.6.1",
@@ -50,7 +50,7 @@
     "eslint-plugin-react-hooks": "4.6.0",
     "jest": "28.1.3",
     "ts-jest": "28.0.8",
-    "typescript": "4.8.3"
+    "typescript": "4.8.4"
   },
   "eslintConfig": {},
   "repository": {
