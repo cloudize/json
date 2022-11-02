@@ -28,7 +28,7 @@ $ npm i @apigames/json
 
 ## Authors or Acknowledgments
 
-*   API Games Limited
+*   Cloudize Limited
 
 ## License
 
