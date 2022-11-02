@@ -13,7 +13,7 @@
   ],
   "description": "Cloudize JSON Utilities",
   "license": "MIT",
-  "version": "22.2.3",
+  "version": "22.2.4",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
@@ -39,10 +39,10 @@
   },
   "devDependencies": {
     "@types/jest": "28.1.8",
-    "@types/node": "16.11.66",
-    "@typescript-eslint/eslint-plugin": "5.40.0",
-    "@typescript-eslint/parser": "5.40.0",
-    "eslint": "8.25.0",
+    "@types/node": "16.18.3",
+    "@typescript-eslint/eslint-plugin": "5.42.0",
+    "@typescript-eslint/parser": "5.42.0",
+    "eslint": "8.26.0",
     "eslint-config-airbnb": "19.0.4",
     "eslint-plugin-import": "2.26.0",
     "eslint-plugin-jsx-a11y": "6.6.1",
