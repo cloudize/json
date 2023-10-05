@@ -38,6 +38,10 @@ export function isFalse(value: any): boolean {
   return isBoolean(value) && (value === false);
 }
 
+export function isFalseOrUndefined(value: any): boolean {
+  return isUndefined(value) || (isBoolean(value) && (value === false));
+}
+
 export function isNumber(value: any): value is number {
   // eslint-disable-next-line no-restricted-globals
   return isDefinedAndNotNull(value) && (typeof value === 'number') && isFinite(value);

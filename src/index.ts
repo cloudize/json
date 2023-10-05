@@ -18,6 +18,7 @@ export {
   isEmpty,
   isError,
   isFalse,
+  isFalseOrUndefined,
   isInteger,
   isNumber,
   isObject,

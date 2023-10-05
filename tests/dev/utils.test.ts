@@ -18,6 +18,7 @@ import {
   isError,
   isDefinedAndNotNull,
   isFalse,
+  isFalseOrUndefined,
   isInteger,
   isNumber,
   isObject,
@@ -988,6 +989,52 @@ describe('The JSON Utils', () => {
 
     it('should return false for an Regex field', () => {
       expect(isFalse(/test/g)).toBe(false);
+    });
+  });
+
+  describe('isFalseOrUndefined() method', () => {
+    it('should return true for an undefined value', () => {
+      expect(isFalseOrUndefined(undefined)).toBe(true);
+    });
+
+    it('should return false for a null value', () => {
+      expect(isFalseOrUndefined(null)).toBe(false);
+    });
+
+    it('should return false for a true (boolean) field', () => {
+      expect(isFalseOrUndefined(true)).toBe(false);
+    });
+
+    it('should return true for a false (boolean) field', () => {
+      expect(isFalseOrUndefined(false)).toBe(true);
+    });
+
+    it('should return false for an array field', () => {
+      expect(isFalseOrUndefined([])).toBe(false);
+    });
+
+    it('should return false for an date field', () => {
+      expect(isFalseOrUndefined(new Date())).toBe(false);
+    });
+
+    it('should return false for an error object', () => {
+      expect(isFalseOrUndefined(new Error('Test'))).toBe(false);
+    });
+
+    it('should return false for an number field', () => {
+      expect(isFalseOrUndefined(5)).toBe(false);
+    });
+
+    it('should return false for an Object field', () => {
+      expect(isFalseOrUndefined({})).toBe(false);
+    });
+
+    it('should return false for an string field', () => {
+      expect(isFalseOrUndefined('test')).toBe(false);
+    });
+
+    it('should return false for an Regex field', () => {
+      expect(isFalseOrUndefined(/test/g)).toBe(false);
     });
   });
 
