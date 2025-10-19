@@ -1,32 +1,13 @@
+export { isFalse, isFalseOrUndefined, isTrue } from './boolean';
+export { clone, extractAndRedact } from './clone-and-extract';
 export {
-  append,
-  areEqual,
-  clone,
-  extractAndRedact,
-  hasProperty,
-  isArray,
-  isArrayOfBooleans,
-  isArrayOfDates,
-  isArrayOfIntegers,
-  isArrayOfNumbers,
-  isArrayOfObjects,
-  isArrayOfStrings,
-  isBoolean,
-  isDate,
-  isDefined,
-  isDefinedAndNotNull,
-  isEmpty,
-  isError,
-  isFalse,
-  isFalseOrUndefined,
-  isInteger,
-  isNumber,
-  isObject,
-  isRegExp,
-  isString,
-  isTrue,
-  isUndefined,
-  isUndefinedOrNull,
-  redactUndefinedValues,
-  stringify,
-} from './utils';
+  isDefined, isDefinedAndNotNull, isUndefined, isUndefinedOrNull, stringify,
+} from './common';
+export { areEqual } from './equality';
+export {
+  append, hasProperty, isEmpty, redactUndefinedValues,
+} from './object';
+export {
+  isArray, isArrayOfBooleans, isArrayOfDates, isArrayOfIntegers, isArrayOfNumbers, isArrayOfObjects, isArrayOfStrings,
+  isBoolean, isDate, isError, isInteger, isNumber, isObject, isRegExp, isString,
+} from './type-guards';
